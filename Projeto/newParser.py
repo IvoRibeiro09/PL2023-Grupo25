@@ -179,7 +179,7 @@ def gerarEspacos(n):
 indent_level = 0
 tag_stack = []
 html_string = ""
-
+"""
 for line in arr:
     tag = line.getTag()
     attribute = line.getAtributo()
@@ -206,6 +206,44 @@ while len(tag_stack) > 0:
     last_tag = tag_stack.pop()
     html_string += f"</{last_tag.getTag()}>"
 
-print(html_string)
+
+def printHtml(arr, pos):
+    atual = arr[pos]
+    print(atual.getTag())
+    print(atual.getConteudo())
+    if(arr[pos + 1].getPosicao() > atual.getPosicao()):
+        pos += 1
+        printHtml(arr, pos)
+    print(atual.getTag())
+
+#print(html_string)
+pos = 0
+while(arr):
+    printHtml(arr, pos)
+    """
+def espacos(n):
+    return " " * n
+
+pos = []
+pospos = []
+p = 0
+while p < len(arr):
+    atual = arr[p]
+    print(espacos(atual.getPosicao()) + "<" + atual.getTag() + " " + atual.getAtributo() + ">")
+    pos.append(atual.getTag())
+    pospos.append(atual.getPosicao())
+    if(atual.getConteudo()):
+        print(espacos(atual.getPosicao() + 4) + atual.getConteudo())
+    if p+1 < len(arr) and atual.getPosicao() >= arr[p+1].getPosicao():
+        print(espacos(pospos.pop()) + "</" + pos.pop() + ">")
+        if atual.getPosicao() > arr[p + 1].getPosicao():
+            print(espacos(pospos.pop()) + "</" + pos.pop() + ">")
+    p = p + 1
+while pos:
+    print(espacos(pospos.pop()) + "</" + pos.pop() + ">")
+
+
+
+
 
 
