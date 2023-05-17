@@ -60,7 +60,6 @@ def p_initblock(p):
 
 
 
-
 def p_initialine(p):
     '''initialine : TAG OPAR ATTRIBUTE CPAR novalinha
                   | TAG novalinha'''
@@ -102,7 +101,8 @@ def p_cardinaline(p):
 #aqui ta a apanhar um espaco a mais
 def p_normal_line(p):
     """normal_line : INDENTATION TAG TEXT novalinha
-                    | INDENTATION TAG EQUALS ATTRIBUTE novalinha"""
+                    | INDENTATION TAG EQUALS ATTRIBUTE novalinha
+                    | INDENTATION TAG OPAR ATTRIBUTE CPAR novalinha"""
     if len(p) == 5:
         p[0] = f"<{p[2]}>"+f"{p[3]}"+"</p>"
         a = Values()
@@ -116,6 +116,13 @@ def p_normal_line(p):
         a.setTag(p[2])
         a.setPosicao(len(p[1]))
         a.setConteudo(p[4])
+        arr.append(a)
+    elif len(p) == 7:
+        p[0] = f"<{p[2]}>" + f"{p[3]}"
+        a = Values()
+        a.setTag(p[2])
+        a.setPosicao(len(p[1]))
+        a.setAtributo(p[4])
         arr.append(a)
 
 def p_novalinha(p):
@@ -148,6 +155,7 @@ html(lang="en")
 text2="""
 html(lang="en")
      body
+         script(type='text/javascript')
          title= pageTitle
          p asda
          p a
@@ -241,9 +249,3 @@ while p < len(arr):
     p = p + 1
 while pos:
     print(espacos(pospos.pop()) + "</" + pos.pop() + ">")
-
-
-
-
-
-
