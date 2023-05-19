@@ -24,7 +24,9 @@ tokens = [
     'TAG',
     'CARDINAL',
     'DOT',
-    'SPECIAL'
+    'SPECIAL',
+    'IF',
+    'ELSE'
 ]
 t_CARDINAL = r'\#'
 t_DOT = r'\.'
@@ -40,6 +42,8 @@ t_ID = r'\w+'
 t_CLASS = r'\w+'
 t_TAG = r'[a-z0-9]+'
 t_SPECIAL=r'[\w"\=\'\/\+\-\ \!\?\,]+'
+t_IF=r'if'
+t_ELSE=r'else'
 
 
 global atual
@@ -58,6 +62,7 @@ def t_INITIAL_TAG(t):
     t.lexer.begin('tag')
     return t
 
+
 def t_indentation_INDENTATION(t):
     r'[\t|\ ]+'
 
@@ -67,6 +72,12 @@ def t_indentation_INDENTATION(t):
     #arr.append(atual)
     #print(arr)
     return t
+
+def t_indentation_IF(t):
+    r'if'
+    t.lexer.begin('attribute')
+    return t
+
 
 def t_indentation_TAG(t):
     r'[a-z0-9]+'
@@ -121,9 +132,7 @@ def t_indentation_SPACE(t):
 def t_tag_NEWLINE(t):
     r'\n'
     #print("pushei no tag_newline"+str(atual))
-
     t.lexer.begin('indentation')
-
     return t
 def t_tag_EQUALS(t):
     r'\='
@@ -137,7 +146,7 @@ def t_tag_DOT(t):
     r'\.'
     global paiponto
     paiponto=atual
-    print("defini o pai ponto como"+str(paiponto))
+    #print("defini o pai ponto como"+str(paiponto))
     t.lexer.begin('ponto')
     return t
 """aqui alterei"""
@@ -148,25 +157,22 @@ def t_ponto_INDENTATION(t):
     global atual
     atual=len(t.value)
 
-    print("paiponto:"+str(paiponto))
+    #print("paiponto:"+str(paiponto))
     if (len(t.value)<=paiponto):
         print("volta para tras")
         t.lexer.begin('indentation')
         return t
     else :
-        print("continua")
         return t
 
 
 
 
 def t_ponto_SPECIAL(t):
-    r'[\w"\=\'\/\+\-\ \!\?\,]+'
+    r'[\w"\=\'\/\+\-\ \!\?\,\)\(\[\]]+'
     return t
 def t_ponto_NEWLINE(t):
     r'\n'
-    #print("pushei no ponto_newline")
-
     return t
 
 
@@ -186,16 +192,17 @@ def t_attribute_ATTRIBUTE(t):
     r'[\w"\=\'\/\.\+\-\#\ ]+'
     return t
 
+
 def t_attribute_CPAR(t):
     r'\)'
-    t.lexer.begin('text')
+    t.lexer.begin('tag')
     return t
+
 def t_attribute_NEWLINE(t):
     r'\n'
     #print("pushei no atributo_newline"+str(atual))
 
     t.lexer.begin('indentation')
-
     return t
 
 
@@ -241,6 +248,7 @@ html(lang="en")
             p.
                 Pug is a terse and simple templating language with a
                 strong focus on performance and powerful features
+              a
             a
             a.
                 aaaa
@@ -259,3 +267,9 @@ def main():
 if __name__ == '__main__':
     main()
 '''
+text3="""
+html(lang="en")
+    head
+         script(type='text/javascript').
+            if (foo) bar(1 + 5)
+"""

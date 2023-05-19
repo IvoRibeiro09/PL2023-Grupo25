@@ -2,99 +2,121 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
 Unused terminals:
 
+    ELSE
+    IF
     SPACE
-    SPECIAL
 
 Grammar
 
 Rule 0     S' -> html
-Rule 1     html -> blocks
-Rule 2     blocks -> blocks block
-Rule 3     blocks -> block
-Rule 4     block -> lines
-Rule 5     lines -> lines line
-Rule 6     lines -> line
-Rule 7     line -> initblock
+Rule 1     html -> novalinha blocks
+Rule 2     html -> blocks
+Rule 3     blocks -> blocks block
+Rule 4     blocks -> block
+Rule 5     block -> lines
+Rule 6     lines -> lines line
+Rule 7     lines -> line
 Rule 8     line -> initialine
-Rule 9     line -> normal_line
-Rule 10    line -> cardinaline
-Rule 11    initblock -> INDENTATION TAG novalinha
-Rule 12    initialine -> TAG OPAR ATTRIBUTE CPAR novalinha
-Rule 13    initialine -> TAG novalinha
-Rule 14    cardinaline -> INDENTATION CARDINAL ID novalinha
-Rule 15    cardinaline -> INDENTATION CARDINAL ID DOT CLASS novalinha
-Rule 16    normal_line -> INDENTATION TAG TEXT novalinha
-Rule 17    normal_line -> INDENTATION TAG EQUALS ATTRIBUTE novalinha
-Rule 18    normal_line -> INDENTATION TAG OPAR ATTRIBUTE CPAR novalinha
-Rule 19    novalinha -> NEWLINE
+Rule 9     line -> initblock
+Rule 10    line -> normal_line
+Rule 11    line -> cardinaline
+Rule 12    line -> specialine
+Rule 13    line -> dotline
+Rule 14    initblock -> INDENTATION TAG novalinha
+Rule 15    initialine -> TAG OPAR ATTRIBUTE CPAR novalinha
+Rule 16    initialine -> TAG novalinha
+Rule 17    cardinaline -> INDENTATION CARDINAL ID novalinha
+Rule 18    cardinaline -> INDENTATION CARDINAL ID DOT CLASS novalinha
+Rule 19    normal_line -> INDENTATION TAG TEXT novalinha
+Rule 20    normal_line -> INDENTATION TAG EQUALS ATTRIBUTE novalinha
+Rule 21    normal_line -> INDENTATION TAG OPAR ATTRIBUTE CPAR novalinha
+Rule 22    specialine -> INDENTATION TAG DOT novalinha
+Rule 23    specialine -> INDENTATION TAG OPAR ATTRIBUTE CPAR DOT novalinha
+Rule 24    dotline -> INDENTATION SPECIAL novalinha
+Rule 25    novalinha -> NEWLINE
 
 Terminals, with rules where they appear
 
-ATTRIBUTE            : 12 17 18
-CARDINAL             : 14 15
-CLASS                : 15
-CPAR                 : 12 18
-DOT                  : 15
-EQUALS               : 17
-ID                   : 14 15
-INDENTATION          : 11 14 15 16 17 18
-NEWLINE              : 19
-OPAR                 : 12 18
+ATTRIBUTE            : 15 20 21 23
+CARDINAL             : 17 18
+CLASS                : 18
+CPAR                 : 15 21 23
+DOT                  : 18 22 23
+ELSE                 : 
+EQUALS               : 20
+ID                   : 17 18
+IF                   : 
+INDENTATION          : 14 17 18 19 20 21 22 23 24
+NEWLINE              : 25
+OPAR                 : 15 21 23
 SPACE                : 
-SPECIAL              : 
-TAG                  : 11 12 13 16 17 18
-TEXT                 : 16
+SPECIAL              : 24
+TAG                  : 14 15 16 19 20 21 22 23
+TEXT                 : 19
 error                : 
 
 Nonterminals, with rules where they appear
 
-block                : 2 3
-blocks               : 1 2
-cardinaline          : 10
+block                : 3 4
+blocks               : 1 2 3
+cardinaline          : 11
+dotline              : 13
 html                 : 0
-initblock            : 7
+initblock            : 9
 initialine           : 8
-line                 : 5 6
-lines                : 4 5
-normal_line          : 9
-novalinha            : 11 12 13 14 15 16 17 18
+line                 : 6 7
+lines                : 5 6
+normal_line          : 10
+novalinha            : 1 14 15 16 17 18 19 20 21 22 23 24
+specialine           : 12
 
 Parsing method: LALR
 
 state 0
 
     (0) S' -> . html
-    (1) html -> . blocks
-    (2) blocks -> . blocks block
-    (3) blocks -> . block
-    (4) block -> . lines
-    (5) lines -> . lines line
-    (6) lines -> . line
-    (7) line -> . initblock
+    (1) html -> . novalinha blocks
+    (2) html -> . blocks
+    (25) novalinha -> . NEWLINE
+    (3) blocks -> . blocks block
+    (4) blocks -> . block
+    (5) block -> . lines
+    (6) lines -> . lines line
+    (7) lines -> . line
     (8) line -> . initialine
-    (9) line -> . normal_line
-    (10) line -> . cardinaline
-    (11) initblock -> . INDENTATION TAG novalinha
-    (12) initialine -> . TAG OPAR ATTRIBUTE CPAR novalinha
-    (13) initialine -> . TAG novalinha
-    (16) normal_line -> . INDENTATION TAG TEXT novalinha
-    (17) normal_line -> . INDENTATION TAG EQUALS ATTRIBUTE novalinha
-    (18) normal_line -> . INDENTATION TAG OPAR ATTRIBUTE CPAR novalinha
-    (14) cardinaline -> . INDENTATION CARDINAL ID novalinha
-    (15) cardinaline -> . INDENTATION CARDINAL ID DOT CLASS novalinha
+    (9) line -> . initblock
+    (10) line -> . normal_line
+    (11) line -> . cardinaline
+    (12) line -> . specialine
+    (13) line -> . dotline
+    (15) initialine -> . TAG OPAR ATTRIBUTE CPAR novalinha
+    (16) initialine -> . TAG novalinha
+    (14) initblock -> . INDENTATION TAG novalinha
+    (19) normal_line -> . INDENTATION TAG TEXT novalinha
+    (20) normal_line -> . INDENTATION TAG EQUALS ATTRIBUTE novalinha
+    (21) normal_line -> . INDENTATION TAG OPAR ATTRIBUTE CPAR novalinha
+    (17) cardinaline -> . INDENTATION CARDINAL ID novalinha
+    (18) cardinaline -> . INDENTATION CARDINAL ID DOT CLASS novalinha
+    (22) specialine -> . INDENTATION TAG DOT novalinha
+    (23) specialine -> . INDENTATION TAG OPAR ATTRIBUTE CPAR DOT novalinha
+    (24) dotline -> . INDENTATION SPECIAL novalinha
 
-    INDENTATION     shift and go to state 10
-    TAG             shift and go to state 11
+    NEWLINE         shift and go to state 4
+    TAG             shift and go to state 14
+    INDENTATION     shift and go to state 15
 
     html                           shift and go to state 1
-    blocks                         shift and go to state 2
-    block                          shift and go to state 3
-    lines                          shift and go to state 4
-    line                           shift and go to state 5
-    initblock                      shift and go to state 6
-    initialine                     shift and go to state 7
-    normal_line                    shift and go to state 8
-    cardinaline                    shift and go to state 9
+    novalinha                      shift and go to state 2
+    blocks                         shift and go to state 3
+    block                          shift and go to state 5
+    lines                          shift and go to state 6
+    line                           shift and go to state 7
+    initialine                     shift and go to state 8
+    initblock                      shift and go to state 9
+    normal_line                    shift and go to state 10
+    cardinaline                    shift and go to state 11
+    specialine                     shift and go to state 12
+    dotline                        shift and go to state 13
 
 state 1
 
@@ -104,367 +126,543 @@ state 1
 
 state 2
 
-    (1) html -> blocks .
-    (2) blocks -> blocks . block
-    (4) block -> . lines
-    (5) lines -> . lines line
-    (6) lines -> . line
-    (7) line -> . initblock
+    (1) html -> novalinha . blocks
+    (3) blocks -> . blocks block
+    (4) blocks -> . block
+    (5) block -> . lines
+    (6) lines -> . lines line
+    (7) lines -> . line
     (8) line -> . initialine
-    (9) line -> . normal_line
-    (10) line -> . cardinaline
-    (11) initblock -> . INDENTATION TAG novalinha
-    (12) initialine -> . TAG OPAR ATTRIBUTE CPAR novalinha
-    (13) initialine -> . TAG novalinha
-    (16) normal_line -> . INDENTATION TAG TEXT novalinha
-    (17) normal_line -> . INDENTATION TAG EQUALS ATTRIBUTE novalinha
-    (18) normal_line -> . INDENTATION TAG OPAR ATTRIBUTE CPAR novalinha
-    (14) cardinaline -> . INDENTATION CARDINAL ID novalinha
-    (15) cardinaline -> . INDENTATION CARDINAL ID DOT CLASS novalinha
+    (9) line -> . initblock
+    (10) line -> . normal_line
+    (11) line -> . cardinaline
+    (12) line -> . specialine
+    (13) line -> . dotline
+    (15) initialine -> . TAG OPAR ATTRIBUTE CPAR novalinha
+    (16) initialine -> . TAG novalinha
+    (14) initblock -> . INDENTATION TAG novalinha
+    (19) normal_line -> . INDENTATION TAG TEXT novalinha
+    (20) normal_line -> . INDENTATION TAG EQUALS ATTRIBUTE novalinha
+    (21) normal_line -> . INDENTATION TAG OPAR ATTRIBUTE CPAR novalinha
+    (17) cardinaline -> . INDENTATION CARDINAL ID novalinha
+    (18) cardinaline -> . INDENTATION CARDINAL ID DOT CLASS novalinha
+    (22) specialine -> . INDENTATION TAG DOT novalinha
+    (23) specialine -> . INDENTATION TAG OPAR ATTRIBUTE CPAR DOT novalinha
+    (24) dotline -> . INDENTATION SPECIAL novalinha
 
-    $end            reduce using rule 1 (html -> blocks .)
-    INDENTATION     shift and go to state 10
-    TAG             shift and go to state 11
+    TAG             shift and go to state 14
+    INDENTATION     shift and go to state 15
 
-    block                          shift and go to state 12
-    lines                          shift and go to state 4
-    line                           shift and go to state 5
-    initblock                      shift and go to state 6
-    initialine                     shift and go to state 7
-    normal_line                    shift and go to state 8
-    cardinaline                    shift and go to state 9
+    blocks                         shift and go to state 16
+    block                          shift and go to state 5
+    lines                          shift and go to state 6
+    line                           shift and go to state 7
+    initialine                     shift and go to state 8
+    initblock                      shift and go to state 9
+    normal_line                    shift and go to state 10
+    cardinaline                    shift and go to state 11
+    specialine                     shift and go to state 12
+    dotline                        shift and go to state 13
 
 state 3
 
-    (3) blocks -> block .
+    (2) html -> blocks .
+    (3) blocks -> blocks . block
+    (5) block -> . lines
+    (6) lines -> . lines line
+    (7) lines -> . line
+    (8) line -> . initialine
+    (9) line -> . initblock
+    (10) line -> . normal_line
+    (11) line -> . cardinaline
+    (12) line -> . specialine
+    (13) line -> . dotline
+    (15) initialine -> . TAG OPAR ATTRIBUTE CPAR novalinha
+    (16) initialine -> . TAG novalinha
+    (14) initblock -> . INDENTATION TAG novalinha
+    (19) normal_line -> . INDENTATION TAG TEXT novalinha
+    (20) normal_line -> . INDENTATION TAG EQUALS ATTRIBUTE novalinha
+    (21) normal_line -> . INDENTATION TAG OPAR ATTRIBUTE CPAR novalinha
+    (17) cardinaline -> . INDENTATION CARDINAL ID novalinha
+    (18) cardinaline -> . INDENTATION CARDINAL ID DOT CLASS novalinha
+    (22) specialine -> . INDENTATION TAG DOT novalinha
+    (23) specialine -> . INDENTATION TAG OPAR ATTRIBUTE CPAR DOT novalinha
+    (24) dotline -> . INDENTATION SPECIAL novalinha
 
-    INDENTATION     reduce using rule 3 (blocks -> block .)
-    TAG             reduce using rule 3 (blocks -> block .)
-    $end            reduce using rule 3 (blocks -> block .)
+    $end            reduce using rule 2 (html -> blocks .)
+    TAG             shift and go to state 14
+    INDENTATION     shift and go to state 15
 
+    block                          shift and go to state 17
+    lines                          shift and go to state 6
+    line                           shift and go to state 7
+    initialine                     shift and go to state 8
+    initblock                      shift and go to state 9
+    normal_line                    shift and go to state 10
+    cardinaline                    shift and go to state 11
+    specialine                     shift and go to state 12
+    dotline                        shift and go to state 13
 
 state 4
 
-    (4) block -> lines .
-    (5) lines -> lines . line
-    (7) line -> . initblock
-    (8) line -> . initialine
-    (9) line -> . normal_line
-    (10) line -> . cardinaline
-    (11) initblock -> . INDENTATION TAG novalinha
-    (12) initialine -> . TAG OPAR ATTRIBUTE CPAR novalinha
-    (13) initialine -> . TAG novalinha
-    (16) normal_line -> . INDENTATION TAG TEXT novalinha
-    (17) normal_line -> . INDENTATION TAG EQUALS ATTRIBUTE novalinha
-    (18) normal_line -> . INDENTATION TAG OPAR ATTRIBUTE CPAR novalinha
-    (14) cardinaline -> . INDENTATION CARDINAL ID novalinha
-    (15) cardinaline -> . INDENTATION CARDINAL ID DOT CLASS novalinha
+    (25) novalinha -> NEWLINE .
 
-  ! shift/reduce conflict for INDENTATION resolved as shift
-  ! shift/reduce conflict for TAG resolved as shift
-    $end            reduce using rule 4 (block -> lines .)
-    INDENTATION     shift and go to state 10
-    TAG             shift and go to state 11
+    TAG             reduce using rule 25 (novalinha -> NEWLINE .)
+    INDENTATION     reduce using rule 25 (novalinha -> NEWLINE .)
+    $end            reduce using rule 25 (novalinha -> NEWLINE .)
 
-  ! INDENTATION     [ reduce using rule 4 (block -> lines .) ]
-  ! TAG             [ reduce using rule 4 (block -> lines .) ]
-
-    line                           shift and go to state 13
-    initblock                      shift and go to state 6
-    initialine                     shift and go to state 7
-    normal_line                    shift and go to state 8
-    cardinaline                    shift and go to state 9
 
 state 5
 
-    (6) lines -> line .
+    (4) blocks -> block .
 
-    INDENTATION     reduce using rule 6 (lines -> line .)
-    TAG             reduce using rule 6 (lines -> line .)
-    $end            reduce using rule 6 (lines -> line .)
+    TAG             reduce using rule 4 (blocks -> block .)
+    INDENTATION     reduce using rule 4 (blocks -> block .)
+    $end            reduce using rule 4 (blocks -> block .)
 
 
 state 6
 
-    (7) line -> initblock .
+    (5) block -> lines .
+    (6) lines -> lines . line
+    (8) line -> . initialine
+    (9) line -> . initblock
+    (10) line -> . normal_line
+    (11) line -> . cardinaline
+    (12) line -> . specialine
+    (13) line -> . dotline
+    (15) initialine -> . TAG OPAR ATTRIBUTE CPAR novalinha
+    (16) initialine -> . TAG novalinha
+    (14) initblock -> . INDENTATION TAG novalinha
+    (19) normal_line -> . INDENTATION TAG TEXT novalinha
+    (20) normal_line -> . INDENTATION TAG EQUALS ATTRIBUTE novalinha
+    (21) normal_line -> . INDENTATION TAG OPAR ATTRIBUTE CPAR novalinha
+    (17) cardinaline -> . INDENTATION CARDINAL ID novalinha
+    (18) cardinaline -> . INDENTATION CARDINAL ID DOT CLASS novalinha
+    (22) specialine -> . INDENTATION TAG DOT novalinha
+    (23) specialine -> . INDENTATION TAG OPAR ATTRIBUTE CPAR DOT novalinha
+    (24) dotline -> . INDENTATION SPECIAL novalinha
 
-    INDENTATION     reduce using rule 7 (line -> initblock .)
-    TAG             reduce using rule 7 (line -> initblock .)
-    $end            reduce using rule 7 (line -> initblock .)
+  ! shift/reduce conflict for TAG resolved as shift
+  ! shift/reduce conflict for INDENTATION resolved as shift
+    $end            reduce using rule 5 (block -> lines .)
+    TAG             shift and go to state 14
+    INDENTATION     shift and go to state 15
 
+  ! TAG             [ reduce using rule 5 (block -> lines .) ]
+  ! INDENTATION     [ reduce using rule 5 (block -> lines .) ]
+
+    line                           shift and go to state 18
+    initialine                     shift and go to state 8
+    initblock                      shift and go to state 9
+    normal_line                    shift and go to state 10
+    cardinaline                    shift and go to state 11
+    specialine                     shift and go to state 12
+    dotline                        shift and go to state 13
 
 state 7
 
-    (8) line -> initialine .
+    (7) lines -> line .
 
-    INDENTATION     reduce using rule 8 (line -> initialine .)
-    TAG             reduce using rule 8 (line -> initialine .)
-    $end            reduce using rule 8 (line -> initialine .)
+    TAG             reduce using rule 7 (lines -> line .)
+    INDENTATION     reduce using rule 7 (lines -> line .)
+    $end            reduce using rule 7 (lines -> line .)
 
 
 state 8
 
-    (9) line -> normal_line .
+    (8) line -> initialine .
 
-    INDENTATION     reduce using rule 9 (line -> normal_line .)
-    TAG             reduce using rule 9 (line -> normal_line .)
-    $end            reduce using rule 9 (line -> normal_line .)
+    TAG             reduce using rule 8 (line -> initialine .)
+    INDENTATION     reduce using rule 8 (line -> initialine .)
+    $end            reduce using rule 8 (line -> initialine .)
 
 
 state 9
 
-    (10) line -> cardinaline .
+    (9) line -> initblock .
 
-    INDENTATION     reduce using rule 10 (line -> cardinaline .)
-    TAG             reduce using rule 10 (line -> cardinaline .)
-    $end            reduce using rule 10 (line -> cardinaline .)
+    TAG             reduce using rule 9 (line -> initblock .)
+    INDENTATION     reduce using rule 9 (line -> initblock .)
+    $end            reduce using rule 9 (line -> initblock .)
 
 
 state 10
 
-    (11) initblock -> INDENTATION . TAG novalinha
-    (16) normal_line -> INDENTATION . TAG TEXT novalinha
-    (17) normal_line -> INDENTATION . TAG EQUALS ATTRIBUTE novalinha
-    (18) normal_line -> INDENTATION . TAG OPAR ATTRIBUTE CPAR novalinha
-    (14) cardinaline -> INDENTATION . CARDINAL ID novalinha
-    (15) cardinaline -> INDENTATION . CARDINAL ID DOT CLASS novalinha
+    (10) line -> normal_line .
 
-    TAG             shift and go to state 14
-    CARDINAL        shift and go to state 15
+    TAG             reduce using rule 10 (line -> normal_line .)
+    INDENTATION     reduce using rule 10 (line -> normal_line .)
+    $end            reduce using rule 10 (line -> normal_line .)
 
 
 state 11
 
-    (12) initialine -> TAG . OPAR ATTRIBUTE CPAR novalinha
-    (13) initialine -> TAG . novalinha
-    (19) novalinha -> . NEWLINE
+    (11) line -> cardinaline .
 
-    OPAR            shift and go to state 16
-    NEWLINE         shift and go to state 18
+    TAG             reduce using rule 11 (line -> cardinaline .)
+    INDENTATION     reduce using rule 11 (line -> cardinaline .)
+    $end            reduce using rule 11 (line -> cardinaline .)
 
-    novalinha                      shift and go to state 17
 
 state 12
 
-    (2) blocks -> blocks block .
+    (12) line -> specialine .
 
-    INDENTATION     reduce using rule 2 (blocks -> blocks block .)
-    TAG             reduce using rule 2 (blocks -> blocks block .)
-    $end            reduce using rule 2 (blocks -> blocks block .)
+    TAG             reduce using rule 12 (line -> specialine .)
+    INDENTATION     reduce using rule 12 (line -> specialine .)
+    $end            reduce using rule 12 (line -> specialine .)
 
 
 state 13
 
-    (5) lines -> lines line .
+    (13) line -> dotline .
 
-    INDENTATION     reduce using rule 5 (lines -> lines line .)
-    TAG             reduce using rule 5 (lines -> lines line .)
-    $end            reduce using rule 5 (lines -> lines line .)
+    TAG             reduce using rule 13 (line -> dotline .)
+    INDENTATION     reduce using rule 13 (line -> dotline .)
+    $end            reduce using rule 13 (line -> dotline .)
 
 
 state 14
 
-    (11) initblock -> INDENTATION TAG . novalinha
-    (16) normal_line -> INDENTATION TAG . TEXT novalinha
-    (17) normal_line -> INDENTATION TAG . EQUALS ATTRIBUTE novalinha
-    (18) normal_line -> INDENTATION TAG . OPAR ATTRIBUTE CPAR novalinha
-    (19) novalinha -> . NEWLINE
+    (15) initialine -> TAG . OPAR ATTRIBUTE CPAR novalinha
+    (16) initialine -> TAG . novalinha
+    (25) novalinha -> . NEWLINE
 
-    TEXT            shift and go to state 20
-    EQUALS          shift and go to state 21
-    OPAR            shift and go to state 22
-    NEWLINE         shift and go to state 18
+    OPAR            shift and go to state 19
+    NEWLINE         shift and go to state 4
 
-    novalinha                      shift and go to state 19
+    novalinha                      shift and go to state 20
 
 state 15
 
-    (14) cardinaline -> INDENTATION CARDINAL . ID novalinha
-    (15) cardinaline -> INDENTATION CARDINAL . ID DOT CLASS novalinha
+    (14) initblock -> INDENTATION . TAG novalinha
+    (19) normal_line -> INDENTATION . TAG TEXT novalinha
+    (20) normal_line -> INDENTATION . TAG EQUALS ATTRIBUTE novalinha
+    (21) normal_line -> INDENTATION . TAG OPAR ATTRIBUTE CPAR novalinha
+    (17) cardinaline -> INDENTATION . CARDINAL ID novalinha
+    (18) cardinaline -> INDENTATION . CARDINAL ID DOT CLASS novalinha
+    (22) specialine -> INDENTATION . TAG DOT novalinha
+    (23) specialine -> INDENTATION . TAG OPAR ATTRIBUTE CPAR DOT novalinha
+    (24) dotline -> INDENTATION . SPECIAL novalinha
 
-    ID              shift and go to state 23
+    TAG             shift and go to state 21
+    CARDINAL        shift and go to state 22
+    SPECIAL         shift and go to state 23
 
 
 state 16
 
-    (12) initialine -> TAG OPAR . ATTRIBUTE CPAR novalinha
+    (1) html -> novalinha blocks .
+    (3) blocks -> blocks . block
+    (5) block -> . lines
+    (6) lines -> . lines line
+    (7) lines -> . line
+    (8) line -> . initialine
+    (9) line -> . initblock
+    (10) line -> . normal_line
+    (11) line -> . cardinaline
+    (12) line -> . specialine
+    (13) line -> . dotline
+    (15) initialine -> . TAG OPAR ATTRIBUTE CPAR novalinha
+    (16) initialine -> . TAG novalinha
+    (14) initblock -> . INDENTATION TAG novalinha
+    (19) normal_line -> . INDENTATION TAG TEXT novalinha
+    (20) normal_line -> . INDENTATION TAG EQUALS ATTRIBUTE novalinha
+    (21) normal_line -> . INDENTATION TAG OPAR ATTRIBUTE CPAR novalinha
+    (17) cardinaline -> . INDENTATION CARDINAL ID novalinha
+    (18) cardinaline -> . INDENTATION CARDINAL ID DOT CLASS novalinha
+    (22) specialine -> . INDENTATION TAG DOT novalinha
+    (23) specialine -> . INDENTATION TAG OPAR ATTRIBUTE CPAR DOT novalinha
+    (24) dotline -> . INDENTATION SPECIAL novalinha
 
-    ATTRIBUTE       shift and go to state 24
+    $end            reduce using rule 1 (html -> novalinha blocks .)
+    TAG             shift and go to state 14
+    INDENTATION     shift and go to state 15
 
+    block                          shift and go to state 17
+    lines                          shift and go to state 6
+    line                           shift and go to state 7
+    initialine                     shift and go to state 8
+    initblock                      shift and go to state 9
+    normal_line                    shift and go to state 10
+    cardinaline                    shift and go to state 11
+    specialine                     shift and go to state 12
+    dotline                        shift and go to state 13
 
 state 17
 
-    (13) initialine -> TAG novalinha .
+    (3) blocks -> blocks block .
 
-    INDENTATION     reduce using rule 13 (initialine -> TAG novalinha .)
-    TAG             reduce using rule 13 (initialine -> TAG novalinha .)
-    $end            reduce using rule 13 (initialine -> TAG novalinha .)
+    TAG             reduce using rule 3 (blocks -> blocks block .)
+    INDENTATION     reduce using rule 3 (blocks -> blocks block .)
+    $end            reduce using rule 3 (blocks -> blocks block .)
 
 
 state 18
 
-    (19) novalinha -> NEWLINE .
+    (6) lines -> lines line .
 
-    INDENTATION     reduce using rule 19 (novalinha -> NEWLINE .)
-    TAG             reduce using rule 19 (novalinha -> NEWLINE .)
-    $end            reduce using rule 19 (novalinha -> NEWLINE .)
+    TAG             reduce using rule 6 (lines -> lines line .)
+    INDENTATION     reduce using rule 6 (lines -> lines line .)
+    $end            reduce using rule 6 (lines -> lines line .)
 
 
 state 19
 
-    (11) initblock -> INDENTATION TAG novalinha .
+    (15) initialine -> TAG OPAR . ATTRIBUTE CPAR novalinha
 
-    INDENTATION     reduce using rule 11 (initblock -> INDENTATION TAG novalinha .)
-    TAG             reduce using rule 11 (initblock -> INDENTATION TAG novalinha .)
-    $end            reduce using rule 11 (initblock -> INDENTATION TAG novalinha .)
+    ATTRIBUTE       shift and go to state 24
 
 
 state 20
 
-    (16) normal_line -> INDENTATION TAG TEXT . novalinha
-    (19) novalinha -> . NEWLINE
+    (16) initialine -> TAG novalinha .
 
-    NEWLINE         shift and go to state 18
+    TAG             reduce using rule 16 (initialine -> TAG novalinha .)
+    INDENTATION     reduce using rule 16 (initialine -> TAG novalinha .)
+    $end            reduce using rule 16 (initialine -> TAG novalinha .)
 
-    novalinha                      shift and go to state 25
 
 state 21
 
-    (17) normal_line -> INDENTATION TAG EQUALS . ATTRIBUTE novalinha
+    (14) initblock -> INDENTATION TAG . novalinha
+    (19) normal_line -> INDENTATION TAG . TEXT novalinha
+    (20) normal_line -> INDENTATION TAG . EQUALS ATTRIBUTE novalinha
+    (21) normal_line -> INDENTATION TAG . OPAR ATTRIBUTE CPAR novalinha
+    (22) specialine -> INDENTATION TAG . DOT novalinha
+    (23) specialine -> INDENTATION TAG . OPAR ATTRIBUTE CPAR DOT novalinha
+    (25) novalinha -> . NEWLINE
 
-    ATTRIBUTE       shift and go to state 26
+    TEXT            shift and go to state 26
+    EQUALS          shift and go to state 27
+    OPAR            shift and go to state 28
+    DOT             shift and go to state 29
+    NEWLINE         shift and go to state 4
 
+    novalinha                      shift and go to state 25
 
 state 22
 
-    (18) normal_line -> INDENTATION TAG OPAR . ATTRIBUTE CPAR novalinha
+    (17) cardinaline -> INDENTATION CARDINAL . ID novalinha
+    (18) cardinaline -> INDENTATION CARDINAL . ID DOT CLASS novalinha
 
-    ATTRIBUTE       shift and go to state 27
+    ID              shift and go to state 30
 
 
 state 23
 
-    (14) cardinaline -> INDENTATION CARDINAL ID . novalinha
-    (15) cardinaline -> INDENTATION CARDINAL ID . DOT CLASS novalinha
-    (19) novalinha -> . NEWLINE
+    (24) dotline -> INDENTATION SPECIAL . novalinha
+    (25) novalinha -> . NEWLINE
 
-    DOT             shift and go to state 29
-    NEWLINE         shift and go to state 18
-
-    novalinha                      shift and go to state 28
-
-state 24
-
-    (12) initialine -> TAG OPAR ATTRIBUTE . CPAR novalinha
-
-    CPAR            shift and go to state 30
-
-
-state 25
-
-    (16) normal_line -> INDENTATION TAG TEXT novalinha .
-
-    INDENTATION     reduce using rule 16 (normal_line -> INDENTATION TAG TEXT novalinha .)
-    TAG             reduce using rule 16 (normal_line -> INDENTATION TAG TEXT novalinha .)
-    $end            reduce using rule 16 (normal_line -> INDENTATION TAG TEXT novalinha .)
-
-
-state 26
-
-    (17) normal_line -> INDENTATION TAG EQUALS ATTRIBUTE . novalinha
-    (19) novalinha -> . NEWLINE
-
-    NEWLINE         shift and go to state 18
+    NEWLINE         shift and go to state 4
 
     novalinha                      shift and go to state 31
 
-state 27
+state 24
 
-    (18) normal_line -> INDENTATION TAG OPAR ATTRIBUTE . CPAR novalinha
+    (15) initialine -> TAG OPAR ATTRIBUTE . CPAR novalinha
 
     CPAR            shift and go to state 32
 
 
+state 25
+
+    (14) initblock -> INDENTATION TAG novalinha .
+
+    TAG             reduce using rule 14 (initblock -> INDENTATION TAG novalinha .)
+    INDENTATION     reduce using rule 14 (initblock -> INDENTATION TAG novalinha .)
+    $end            reduce using rule 14 (initblock -> INDENTATION TAG novalinha .)
+
+
+state 26
+
+    (19) normal_line -> INDENTATION TAG TEXT . novalinha
+    (25) novalinha -> . NEWLINE
+
+    NEWLINE         shift and go to state 4
+
+    novalinha                      shift and go to state 33
+
+state 27
+
+    (20) normal_line -> INDENTATION TAG EQUALS . ATTRIBUTE novalinha
+
+    ATTRIBUTE       shift and go to state 34
+
+
 state 28
 
-    (14) cardinaline -> INDENTATION CARDINAL ID novalinha .
+    (21) normal_line -> INDENTATION TAG OPAR . ATTRIBUTE CPAR novalinha
+    (23) specialine -> INDENTATION TAG OPAR . ATTRIBUTE CPAR DOT novalinha
 
-    INDENTATION     reduce using rule 14 (cardinaline -> INDENTATION CARDINAL ID novalinha .)
-    TAG             reduce using rule 14 (cardinaline -> INDENTATION CARDINAL ID novalinha .)
-    $end            reduce using rule 14 (cardinaline -> INDENTATION CARDINAL ID novalinha .)
+    ATTRIBUTE       shift and go to state 35
 
 
 state 29
 
-    (15) cardinaline -> INDENTATION CARDINAL ID DOT . CLASS novalinha
+    (22) specialine -> INDENTATION TAG DOT . novalinha
+    (25) novalinha -> . NEWLINE
 
-    CLASS           shift and go to state 33
+    NEWLINE         shift and go to state 4
 
+    novalinha                      shift and go to state 36
 
 state 30
 
-    (12) initialine -> TAG OPAR ATTRIBUTE CPAR . novalinha
-    (19) novalinha -> . NEWLINE
+    (17) cardinaline -> INDENTATION CARDINAL ID . novalinha
+    (18) cardinaline -> INDENTATION CARDINAL ID . DOT CLASS novalinha
+    (25) novalinha -> . NEWLINE
 
-    NEWLINE         shift and go to state 18
+    DOT             shift and go to state 38
+    NEWLINE         shift and go to state 4
 
-    novalinha                      shift and go to state 34
+    novalinha                      shift and go to state 37
 
 state 31
 
-    (17) normal_line -> INDENTATION TAG EQUALS ATTRIBUTE novalinha .
+    (24) dotline -> INDENTATION SPECIAL novalinha .
 
-    INDENTATION     reduce using rule 17 (normal_line -> INDENTATION TAG EQUALS ATTRIBUTE novalinha .)
-    TAG             reduce using rule 17 (normal_line -> INDENTATION TAG EQUALS ATTRIBUTE novalinha .)
-    $end            reduce using rule 17 (normal_line -> INDENTATION TAG EQUALS ATTRIBUTE novalinha .)
+    TAG             reduce using rule 24 (dotline -> INDENTATION SPECIAL novalinha .)
+    INDENTATION     reduce using rule 24 (dotline -> INDENTATION SPECIAL novalinha .)
+    $end            reduce using rule 24 (dotline -> INDENTATION SPECIAL novalinha .)
 
 
 state 32
 
-    (18) normal_line -> INDENTATION TAG OPAR ATTRIBUTE CPAR . novalinha
-    (19) novalinha -> . NEWLINE
+    (15) initialine -> TAG OPAR ATTRIBUTE CPAR . novalinha
+    (25) novalinha -> . NEWLINE
 
-    NEWLINE         shift and go to state 18
+    NEWLINE         shift and go to state 4
 
-    novalinha                      shift and go to state 35
+    novalinha                      shift and go to state 39
 
 state 33
 
-    (15) cardinaline -> INDENTATION CARDINAL ID DOT CLASS . novalinha
-    (19) novalinha -> . NEWLINE
+    (19) normal_line -> INDENTATION TAG TEXT novalinha .
 
-    NEWLINE         shift and go to state 18
+    TAG             reduce using rule 19 (normal_line -> INDENTATION TAG TEXT novalinha .)
+    INDENTATION     reduce using rule 19 (normal_line -> INDENTATION TAG TEXT novalinha .)
+    $end            reduce using rule 19 (normal_line -> INDENTATION TAG TEXT novalinha .)
 
-    novalinha                      shift and go to state 36
 
 state 34
 
-    (12) initialine -> TAG OPAR ATTRIBUTE CPAR novalinha .
+    (20) normal_line -> INDENTATION TAG EQUALS ATTRIBUTE . novalinha
+    (25) novalinha -> . NEWLINE
 
-    INDENTATION     reduce using rule 12 (initialine -> TAG OPAR ATTRIBUTE CPAR novalinha .)
-    TAG             reduce using rule 12 (initialine -> TAG OPAR ATTRIBUTE CPAR novalinha .)
-    $end            reduce using rule 12 (initialine -> TAG OPAR ATTRIBUTE CPAR novalinha .)
+    NEWLINE         shift and go to state 4
 
+    novalinha                      shift and go to state 40
 
 state 35
 
-    (18) normal_line -> INDENTATION TAG OPAR ATTRIBUTE CPAR novalinha .
+    (21) normal_line -> INDENTATION TAG OPAR ATTRIBUTE . CPAR novalinha
+    (23) specialine -> INDENTATION TAG OPAR ATTRIBUTE . CPAR DOT novalinha
 
-    INDENTATION     reduce using rule 18 (normal_line -> INDENTATION TAG OPAR ATTRIBUTE CPAR novalinha .)
-    TAG             reduce using rule 18 (normal_line -> INDENTATION TAG OPAR ATTRIBUTE CPAR novalinha .)
-    $end            reduce using rule 18 (normal_line -> INDENTATION TAG OPAR ATTRIBUTE CPAR novalinha .)
+    CPAR            shift and go to state 41
 
 
 state 36
 
-    (15) cardinaline -> INDENTATION CARDINAL ID DOT CLASS novalinha .
+    (22) specialine -> INDENTATION TAG DOT novalinha .
 
-    INDENTATION     reduce using rule 15 (cardinaline -> INDENTATION CARDINAL ID DOT CLASS novalinha .)
-    TAG             reduce using rule 15 (cardinaline -> INDENTATION CARDINAL ID DOT CLASS novalinha .)
-    $end            reduce using rule 15 (cardinaline -> INDENTATION CARDINAL ID DOT CLASS novalinha .)
+    TAG             reduce using rule 22 (specialine -> INDENTATION TAG DOT novalinha .)
+    INDENTATION     reduce using rule 22 (specialine -> INDENTATION TAG DOT novalinha .)
+    $end            reduce using rule 22 (specialine -> INDENTATION TAG DOT novalinha .)
+
+
+state 37
+
+    (17) cardinaline -> INDENTATION CARDINAL ID novalinha .
+
+    TAG             reduce using rule 17 (cardinaline -> INDENTATION CARDINAL ID novalinha .)
+    INDENTATION     reduce using rule 17 (cardinaline -> INDENTATION CARDINAL ID novalinha .)
+    $end            reduce using rule 17 (cardinaline -> INDENTATION CARDINAL ID novalinha .)
+
+
+state 38
+
+    (18) cardinaline -> INDENTATION CARDINAL ID DOT . CLASS novalinha
+
+    CLASS           shift and go to state 42
+
+
+state 39
+
+    (15) initialine -> TAG OPAR ATTRIBUTE CPAR novalinha .
+
+    TAG             reduce using rule 15 (initialine -> TAG OPAR ATTRIBUTE CPAR novalinha .)
+    INDENTATION     reduce using rule 15 (initialine -> TAG OPAR ATTRIBUTE CPAR novalinha .)
+    $end            reduce using rule 15 (initialine -> TAG OPAR ATTRIBUTE CPAR novalinha .)
+
+
+state 40
+
+    (20) normal_line -> INDENTATION TAG EQUALS ATTRIBUTE novalinha .
+
+    TAG             reduce using rule 20 (normal_line -> INDENTATION TAG EQUALS ATTRIBUTE novalinha .)
+    INDENTATION     reduce using rule 20 (normal_line -> INDENTATION TAG EQUALS ATTRIBUTE novalinha .)
+    $end            reduce using rule 20 (normal_line -> INDENTATION TAG EQUALS ATTRIBUTE novalinha .)
+
+
+state 41
+
+    (21) normal_line -> INDENTATION TAG OPAR ATTRIBUTE CPAR . novalinha
+    (23) specialine -> INDENTATION TAG OPAR ATTRIBUTE CPAR . DOT novalinha
+    (25) novalinha -> . NEWLINE
+
+    DOT             shift and go to state 44
+    NEWLINE         shift and go to state 4
+
+    novalinha                      shift and go to state 43
+
+state 42
+
+    (18) cardinaline -> INDENTATION CARDINAL ID DOT CLASS . novalinha
+    (25) novalinha -> . NEWLINE
+
+    NEWLINE         shift and go to state 4
+
+    novalinha                      shift and go to state 45
+
+state 43
+
+    (21) normal_line -> INDENTATION TAG OPAR ATTRIBUTE CPAR novalinha .
+
+    TAG             reduce using rule 21 (normal_line -> INDENTATION TAG OPAR ATTRIBUTE CPAR novalinha .)
+    INDENTATION     reduce using rule 21 (normal_line -> INDENTATION TAG OPAR ATTRIBUTE CPAR novalinha .)
+    $end            reduce using rule 21 (normal_line -> INDENTATION TAG OPAR ATTRIBUTE CPAR novalinha .)
+
+
+state 44
+
+    (23) specialine -> INDENTATION TAG OPAR ATTRIBUTE CPAR DOT . novalinha
+    (25) novalinha -> . NEWLINE
+
+    NEWLINE         shift and go to state 4
+
+    novalinha                      shift and go to state 46
+
+state 45
+
+    (18) cardinaline -> INDENTATION CARDINAL ID DOT CLASS novalinha .
+
+    TAG             reduce using rule 18 (cardinaline -> INDENTATION CARDINAL ID DOT CLASS novalinha .)
+    INDENTATION     reduce using rule 18 (cardinaline -> INDENTATION CARDINAL ID DOT CLASS novalinha .)
+    $end            reduce using rule 18 (cardinaline -> INDENTATION CARDINAL ID DOT CLASS novalinha .)
+
+
+state 46
+
+    (23) specialine -> INDENTATION TAG OPAR ATTRIBUTE CPAR DOT novalinha .
+
+    TAG             reduce using rule 23 (specialine -> INDENTATION TAG OPAR ATTRIBUTE CPAR DOT novalinha .)
+    INDENTATION     reduce using rule 23 (specialine -> INDENTATION TAG OPAR ATTRIBUTE CPAR DOT novalinha .)
+    $end            reduce using rule 23 (specialine -> INDENTATION TAG OPAR ATTRIBUTE CPAR DOT novalinha .)
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for INDENTATION in state 4 resolved as shift
-WARNING: shift/reduce conflict for TAG in state 4 resolved as shift
+WARNING: shift/reduce conflict for TAG in state 6 resolved as shift
+WARNING: shift/reduce conflict for INDENTATION in state 6 resolved as shift

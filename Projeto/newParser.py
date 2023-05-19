@@ -5,8 +5,12 @@ from CLASSE import *
 arr=[]
 
 def p_html(p):
-    '''html : blocks '''
-    p[0]=p[1]
+    '''html : novalinha blocks
+            | blocks '''
+    if len(p)==3:
+        p[0] = p[2]
+    else :
+        p[0]=p[1]
 
 """line :  espacos TAG novalinha
             | TAG OPAR
@@ -43,10 +47,12 @@ def p_lines(p):
         p[0]=p[1]+[p[2]]
 
 def p_line(p):
-    '''line : initblock
-            | initialine
+    '''line : initialine
+            | initblock
             | normal_line
-            | cardinaline'''
+            | cardinaline
+            | specialine
+            | dotline '''
 def p_initblock(p):
     '''initblock : INDENTATION TAG novalinha '''
     p[0]= p[2]
@@ -56,7 +62,7 @@ def p_initblock(p):
     a.setPosicao(len(p[1]))
     a.setAtributo("")
     arr.append(a)
-    print("initblock:"+p[0])
+    #print("initblock:"+p[0])
 
 
 
@@ -77,8 +83,6 @@ def p_initialine(p):
         a.setPosicao(0)
         a.setAtributo(p[3])
         arr.append(a)
-    #print("initialine:"+p[0])
-
 
 
 def p_cardinaline(p):
@@ -125,6 +129,78 @@ def p_normal_line(p):
         a.setAtributo(p[4])
         arr.append(a)
 
+"""
+def p_dotblock(p):
+    dotblock : INDENTATION TAG DOT novalinha dotcontent
+                | INDENTATION TAG DOT novalinha
+    if len(p) == 5:
+        print("len=5")
+        p[0] = f"<{p[2]}>"+f"{p[3]}"+"</p>"
+        a = Values()
+        a.setTag(p[2])
+        a.setPosicao(len(p[1]))
+        a.setConteudo("")
+        arr.append(a)
+    elif len(p) == 6:
+        print("entrei")
+        p[0] = f"<{p[2]}>"+f"{p[3]}"+"</p>"
+        a = Values()
+        a.setTag(p[2])
+        a.setPosicao(len(p[1]))
+        print("p de 5 no dotblock"+p[5])
+        a.setConteudo(p[5])
+        arr.append(a)
+        print("especial no dotblock")
+def p_dotcontent(p):
+    dotcontent : dotcontent dotline
+                  | dotline
+
+    if len(p)==3:
+        print("DOTCONTENT LEN=3")
+        #print("P[1="+p[1])
+        #print("P[2=" + p[2])
+        p[0]=p[1]+p[2]
+        print("p de 0|"+p[0]+"|")
+    else :
+        p[0]=p[1]
+        print("dotcontent else")
+    return p[0]
+"""
+def p_specialine(p):
+    """specialine : INDENTATION TAG DOT novalinha
+                  | INDENTATION TAG OPAR ATTRIBUTE CPAR DOT novalinha"""
+    if len(p)==5:
+        p[0]=p[1]+p[2]+p[3]
+        a = Values()
+        a.setTag(p[2])
+        a.setPosicao(len(p[1]))
+        a.setAtributo("")
+        a.setConteudo("")
+        arr.append(a)
+    elif len(p)==8:
+        p[0] = p[1] + p[2] + p[3]
+        a = Values()
+        a.setTag(p[2])
+        a.setPosicao(len(p[1]))
+        a.setAtributo(p[4])
+        a.setConteudo("")
+        arr.append(a)
+    print("specialine|"+ p[0]+"|")
+
+    return p[0]
+
+def p_dotline(p):
+    """dotline : INDENTATION SPECIAL novalinha"""
+    if len(p)==4:
+        p[0]=p[1]+p[2]+p[3]
+        ax=arr[-1].getConteudo()
+        ax+=p[0]
+        arr[-1].setConteudo(ax)
+        print("ax|"+ax+"|")
+    print("dotline|"+ p[0]+"|")
+    return p[0]
+
+
 def p_novalinha(p):
     '''novalinha : NEWLINE'''
     p[0]=p[1]
@@ -151,11 +227,14 @@ html(lang="en")
             p.
                 Pug is a terse and simple templating language with a
                 strong focus on performance and powerful features
+            p
+                
 """
 text2="""
 html(lang="en")
      body
-         script(type='text/javascript')
+         script(type='text/javascript').
+            if (foo) bar(1 + 5)
          title= pageTitle
          p asda
          p a
@@ -164,10 +243,23 @@ html(lang="en")
          #container.col
      head
            p asasa
-           p aaaaa
+           p aaaa
+           p.
+                aaaaa
+                bbbbb
+                cccc
+           p.
+                a
+                """
+
+text3="""
+html(lang="en")
+    head
+         script(type='text/javascript').
+            if (foo) bar(1 + 5)
 """
 parser = yac.yacc()
-print(parser.parse(text2))
+print(parser.parse(text))
 
 print("Arr:---------")
 
@@ -183,52 +275,10 @@ for i in arr:
 
 def gerarEspacos(n):
     return " " * n
-"""REVER ISTO N T ABEM"""
 indent_level = 0
 tag_stack = []
 html_string = ""
-"""
-for line in arr:
-    tag = line.getTag()
-    attribute = line.getAtributo()
-    content=line.getConteudo()
-    indentation = line.getPosicao()
 
-    while len(tag_stack) > 0 and indentation <= tag_stack[-1].getPosicao():
-        last_tag = tag_stack.pop()
-        html_string += f"</{last_tag.getTag()}>\n"
-
-    if indentation > indent_level:
-        tag_stack.append(line)
-        html_string += f"{gerarEspacos(indent_level)}<{tag} {attribute}>{content}\n"
-        indent_level += 1
-    elif indentation < indent_level:
-        if len(tag_stack) > 0:
-            tag_stack.pop()
-        html_string += f"</{tag}>\n"
-        indent_level -= 1
-    else:
-        html_string += f"<{tag} {attribute}>{content}</{tag}>"
-
-while len(tag_stack) > 0:
-    last_tag = tag_stack.pop()
-    html_string += f"</{last_tag.getTag()}>"
-
-
-def printHtml(arr, pos):
-    atual = arr[pos]
-    print(atual.getTag())
-    print(atual.getConteudo())
-    if(arr[pos + 1].getPosicao() > atual.getPosicao()):
-        pos += 1
-        printHtml(arr, pos)
-    print(atual.getTag())
-
-#print(html_string)
-pos = 0
-while(arr):
-    printHtml(arr, pos)
-    """
 def espacos(n):
     return " " * n
 
