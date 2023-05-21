@@ -1,15 +1,16 @@
 from ply import lex
 
-states =(
-    ('indentation','exclusive'),
-    ('tag','exclusive'),
-    ('text','exclusive'),
-    ('attribute','exclusive'),
-    ('id','exclusive'),
-    ('class','exclusive'),
-    ('ponto','exclusive')
-
+states = (
+    ('indentation', 'exclusive'),
+    ('tag', 'exclusive'),
+    ('text', 'exclusive'),
+    ('attribute', 'exclusive'),
+    ('id', 'exclusive'),
+    ('class', 'exclusive'),
+    ('ponto', 'exclusive'),
+    ('VARIAVEL', 'exclusive')
 )
+
 tokens = [
     'NEWLINE',
     'SPACE',
@@ -21,35 +22,24 @@ tokens = [
     'CLASS',
     'INDENTATION',
     'EQUALS',
+    'IF',
+    'ELSE',
     'TAG',
     'CARDINAL',
     'DOT',
     'SPECIAL',
-    'IF',
-    'ELSE'
+    'VAR',
+    'EQUAL'
 ]
-t_CARDINAL = r'\#'
-t_DOT = r'\.'
-t_EQUALS = r'='
-t_INDENTATION = r'[\t|\ ]+'
-t_NEWLINE = r'\n'
-t_SPACE = r'\ '
-t_OPAR = r'\('
-t_CPAR = r'\)'
-t_TEXT = r'[\w"\=\'\/\+\-\ \!\?\,]+'
-t_ATTRIBUTE = r'[\w"\'\/\+\-\#\ ]+'
-t_ID = r'\w+'
-t_CLASS = r'\w+'
-t_TAG = r'[a-z0-9]+'
-t_SPECIAL=r'[\w"\=\'\/\+\-\ \!\?\,]+'
-t_IF=r'if'
-t_ELSE=r'else'
+
 
 
 global atual
 atual=0
 global paiponto
 paiponto=0
+
+
 
 
 
@@ -61,21 +51,54 @@ def t_INITIAL_TAG(t):
     r'[a-z0-9]+'
     t.lexer.begin('tag')
     return t
+def t_INITIAL_VAR(t):
+    r'\-\ var'
+    t.lexer.begin('VARIAVEL')
+    return t
+def t_INITIAL_NEWLINE(t):
+    r'\n'
+    t.lexer.begin('indentation')
+    return t
+def t_indentation_VAR(t):
+    r'\-\ var'
+    t.lexer.begin('VARIAVEL')
+    return t
+def t_VARIAVEL_SPACE(t):
+    r'\ '
+    return t
+def t_VARIAVEL_TEXT(t):
+    r'[\w"\'\/\+\-\!\?\,]+'
+    return t
+def t_VARIAVEL_EQUAL(t):
+    r'\='
+    return t
+def t_VARIAVEL_NEWLINE(t):
+    r'\n'
+    t.lexer.begin('INITIAL')
+    return t
+def t_INITIAL_IF(t):
+    r'if'
+    t.lexer.begin('text')
+    return t
 
-
-def t_indentation_INDENTATION(t):
-    r'[\t|\ ]+'
-
-    #print(len(t.value))
-    global atual
-    atual= len(t.value)
-    #arr.append(atual)
-    #print(arr)
+def t_INITIAL_ELSE(t):
+    r'else'
     return t
 
 def t_indentation_IF(t):
     r'if'
-    t.lexer.begin('attribute')
+    t.lexer.begin('text')
+    return t
+
+def t_indentation_ELSE(t):
+    r'else'
+    t.lexer.begin('text')
+    return t
+
+def t_indentation_INDENTATION(t):
+    r'[\t|\ ]+'
+    global atual
+    atual= len(t.value)
     return t
 
 
@@ -131,13 +154,13 @@ def t_indentation_SPACE(t):
 
 def t_tag_NEWLINE(t):
     r'\n'
-    #print("pushei no tag_newline"+str(atual))
     t.lexer.begin('indentation')
     return t
 def t_tag_EQUALS(t):
     r'\='
     t.lexer.begin('attribute')
     return t
+
 def t_tag_TEXT(t):
     r'[\w"\=\'\/\+\-\ \!\?\,]+'
     t.lexer.begin('text')
@@ -241,7 +264,7 @@ html(lang="en")
     body
         h1 Pug - node template engine
         #container.col
-            if youAreUsingPug
+            if youAreUsingPug 
                 p You are amazing
             else
                 p Get on it!
@@ -269,7 +292,9 @@ if __name__ == '__main__':
 '''
 text3="""
 html(lang="en")
-    head
-         script(type='text/javascript').
-            if (foo) bar(1 + 5)
+    - var aaa = True
+     if youAreUsingPug
+        p You are amazing
+     else
+        p Get on it!
 """

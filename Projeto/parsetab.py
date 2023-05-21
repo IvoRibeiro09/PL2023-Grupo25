@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ATTRIBUTE CARDINAL CLASS CPAR DOT ELSE EQUALS ID IF INDENTATION NEWLINE OPAR SPACE SPECIAL TAG TEXThtml : novalinha blocks\n            | blocks blocks : blocks block\n            | block block : lines\n        lines : lines line\n             | line line : initialine\n            | initblock\n            | normal_line\n            | cardinaline\n            | specialine\n            | dotline initblock : INDENTATION TAG novalinha initialine : TAG OPAR ATTRIBUTE CPAR novalinha\n                  | TAG novalinhacardinaline : INDENTATION CARDINAL ID novalinha\n                   | INDENTATION CARDINAL ID DOT CLASS novalinhanormal_line : INDENTATION TAG TEXT novalinha\n                    | INDENTATION TAG EQUALS ATTRIBUTE novalinha\n                    | INDENTATION TAG OPAR ATTRIBUTE CPAR novalinhaspecialine : INDENTATION TAG DOT novalinha\n                  | INDENTATION TAG OPAR ATTRIBUTE CPAR DOT novalinhadotline : INDENTATION SPECIAL novalinhanovalinha : NEWLINE'
+_lr_signature = 'ATTRIBUTE CARDINAL CLASS CPAR DOT ELSE EQUAL EQUALS ID IF INDENTATION NEWLINE OPAR SPACE SPECIAL TAG TEXT VARhtml : novalinha blocks\n            | blocks blocks : blocks block\n            | block block : lines\n        lines : lines line\n             | line line : initialine\n            | initblock\n            | normal_line\n            | cardinaline\n            | specialine\n            | dotline\n            | variableline\n            | iflineinitblock : INDENTATION TAG novalinha initialine : TAG OPAR ATTRIBUTE CPAR novalinha\n                  | TAG novalinhacardinaline : INDENTATION CARDINAL ID novalinha\n                   | INDENTATION CARDINAL ID DOT CLASS novalinhanormal_line : INDENTATION TAG TEXT novalinha\n                    | INDENTATION TAG EQUALS ATTRIBUTE novalinha\n                    | INDENTATION TAG OPAR ATTRIBUTE CPAR novalinhaspecialine : INDENTATION TAG DOT novalinha\n                  | INDENTATION TAG OPAR ATTRIBUTE CPAR DOT novalinhadotline : INDENTATION SPECIAL novalinhavariableline : INDENTATION VAR SPACE TEXT SPACE EQUAL SPACE TEXT novalinhaifline : INDENTATION IF TEXT novalinhanovalinha : NEWLINE'
     
-_lr_action_items = {'NEWLINE':([0,14,21,23,26,29,30,32,34,41,42,44,],[4,4,4,4,4,4,4,4,4,4,4,4,]),'TAG':([0,2,3,4,5,6,7,8,9,10,11,12,13,15,16,17,18,20,25,31,33,36,37,39,40,43,45,46,],[14,14,14,-25,-4,14,-7,-8,-9,-10,-11,-12,-13,21,14,-3,-6,-16,-14,-24,-19,-22,-17,-15,-20,-21,-18,-23,]),'INDENTATION':([0,2,3,4,5,6,7,8,9,10,11,12,13,16,17,18,20,25,31,33,36,37,39,40,43,45,46,],[15,15,15,-25,-4,15,-7,-8,-9,-10,-11,-12,-13,15,-3,-6,-16,-14,-24,-19,-22,-17,-15,-20,-21,-18,-23,]),'$end':([1,3,4,5,6,7,8,9,10,11,12,13,16,17,18,20,25,31,33,36,37,39,40,43,45,46,],[0,-2,-25,-4,-5,-7,-8,-9,-10,-11,-12,-13,-1,-3,-6,-16,-14,-24,-19,-22,-17,-15,-20,-21,-18,-23,]),'OPAR':([14,21,],[19,28,]),'CARDINAL':([15,],[22,]),'SPECIAL':([15,],[23,]),'ATTRIBUTE':([19,27,28,],[24,34,35,]),'TEXT':([21,],[26,]),'EQUALS':([21,],[27,]),'DOT':([21,30,41,],[29,38,44,]),'ID':([22,],[30,]),'CPAR':([24,35,],[32,41,]),'CLASS':([38,],[42,]),}
+_lr_action_items = {'NEWLINE':([0,16,23,25,30,33,34,37,38,40,49,50,53,58,],[4,4,4,4,4,4,4,4,4,4,4,4,4,4,]),'TAG':([0,2,3,4,5,6,7,8,9,10,11,12,13,14,15,17,18,19,20,22,29,35,39,42,43,46,47,48,52,54,56,59,],[16,16,16,-29,-4,16,-7,-8,-9,-10,-11,-12,-13,-14,-15,23,16,-3,-6,-18,-16,-26,-21,-24,-19,-28,-17,-22,-23,-20,-25,-27,]),'INDENTATION':([0,2,3,4,5,6,7,8,9,10,11,12,13,14,15,18,19,20,22,29,35,39,42,43,46,47,48,52,54,56,59,],[17,17,17,-29,-4,17,-7,-8,-9,-10,-11,-12,-13,-14,-15,17,-3,-6,-18,-16,-26,-21,-24,-19,-28,-17,-22,-23,-20,-25,-27,]),'$end':([1,3,4,5,6,7,8,9,10,11,12,13,14,15,18,19,20,22,29,35,39,42,43,46,47,48,52,54,56,59,],[0,-2,-29,-4,-5,-7,-8,-9,-10,-11,-12,-13,-14,-15,-1,-3,-6,-18,-16,-26,-21,-24,-19,-28,-17,-22,-23,-20,-25,-27,]),'OPAR':([16,23,],[21,32,]),'CARDINAL':([17,],[24,]),'SPECIAL':([17,],[25,]),'VAR':([17,],[26,]),'IF':([17,],[27,]),'ATTRIBUTE':([21,31,32,],[28,40,41,]),'TEXT':([23,27,36,57,],[30,37,45,58,]),'EQUALS':([23,],[31,]),'DOT':([23,34,49,],[33,44,53,]),'ID':([24,],[34,]),'SPACE':([26,45,55,],[36,51,57,]),'CPAR':([28,41,],[38,49,]),'CLASS':([44,],[50,]),'EQUAL':([51,],[55,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'html':([0,],[1,]),'novalinha':([0,14,21,23,26,29,30,32,34,41,42,44,],[2,20,25,31,33,36,37,39,40,43,45,46,]),'blocks':([0,2,],[3,16,]),'block':([0,2,3,16,],[5,5,17,17,]),'lines':([0,2,3,16,],[6,6,6,6,]),'line':([0,2,3,6,16,],[7,7,7,18,7,]),'initialine':([0,2,3,6,16,],[8,8,8,8,8,]),'initblock':([0,2,3,6,16,],[9,9,9,9,9,]),'normal_line':([0,2,3,6,16,],[10,10,10,10,10,]),'cardinaline':([0,2,3,6,16,],[11,11,11,11,11,]),'specialine':([0,2,3,6,16,],[12,12,12,12,12,]),'dotline':([0,2,3,6,16,],[13,13,13,13,13,]),}
+_lr_goto_items = {'html':([0,],[1,]),'novalinha':([0,16,23,25,30,33,34,37,38,40,49,50,53,58,],[2,22,29,35,39,42,43,46,47,48,52,54,56,59,]),'blocks':([0,2,],[3,18,]),'block':([0,2,3,18,],[5,5,19,19,]),'lines':([0,2,3,18,],[6,6,6,6,]),'line':([0,2,3,6,18,],[7,7,7,20,7,]),'initialine':([0,2,3,6,18,],[8,8,8,8,8,]),'initblock':([0,2,3,6,18,],[9,9,9,9,9,]),'normal_line':([0,2,3,6,18,],[10,10,10,10,10,]),'cardinaline':([0,2,3,6,18,],[11,11,11,11,11,]),'specialine':([0,2,3,6,18,],[12,12,12,12,12,]),'dotline':([0,2,3,6,18,],[13,13,13,13,13,]),'variableline':([0,2,3,6,18,],[14,14,14,14,14,]),'ifline':([0,2,3,6,18,],[15,15,15,15,15,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,29 +27,33 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> html","S'",1,None,None,None),
-  ('html -> novalinha blocks','html',2,'p_html','newParser.py',8),
-  ('html -> blocks','html',1,'p_html','newParser.py',9),
-  ('blocks -> blocks block','blocks',2,'p_blocks','newParser.py',25),
-  ('blocks -> block','blocks',1,'p_blocks','newParser.py',26),
-  ('block -> lines','block',1,'p_block','newParser.py',35),
-  ('lines -> lines line','lines',2,'p_lines','newParser.py',42),
-  ('lines -> line','lines',1,'p_lines','newParser.py',43),
-  ('line -> initialine','line',1,'p_line','newParser.py',50),
-  ('line -> initblock','line',1,'p_line','newParser.py',51),
-  ('line -> normal_line','line',1,'p_line','newParser.py',52),
-  ('line -> cardinaline','line',1,'p_line','newParser.py',53),
-  ('line -> specialine','line',1,'p_line','newParser.py',54),
-  ('line -> dotline','line',1,'p_line','newParser.py',55),
-  ('initblock -> INDENTATION TAG novalinha','initblock',3,'p_initblock','newParser.py',57),
-  ('initialine -> TAG OPAR ATTRIBUTE CPAR novalinha','initialine',5,'p_initialine','newParser.py',70),
-  ('initialine -> TAG novalinha','initialine',2,'p_initialine','newParser.py',71),
-  ('cardinaline -> INDENTATION CARDINAL ID novalinha','cardinaline',4,'p_cardinaline','newParser.py',89),
-  ('cardinaline -> INDENTATION CARDINAL ID DOT CLASS novalinha','cardinaline',6,'p_cardinaline','newParser.py',90),
-  ('normal_line -> INDENTATION TAG TEXT novalinha','normal_line',4,'p_normal_line','newParser.py',107),
-  ('normal_line -> INDENTATION TAG EQUALS ATTRIBUTE novalinha','normal_line',5,'p_normal_line','newParser.py',108),
-  ('normal_line -> INDENTATION TAG OPAR ATTRIBUTE CPAR novalinha','normal_line',6,'p_normal_line','newParser.py',109),
-  ('specialine -> INDENTATION TAG DOT novalinha','specialine',4,'p_specialine','newParser.py',170),
-  ('specialine -> INDENTATION TAG OPAR ATTRIBUTE CPAR DOT novalinha','specialine',7,'p_specialine','newParser.py',171),
-  ('dotline -> INDENTATION SPECIAL novalinha','dotline',3,'p_dotline','newParser.py',193),
-  ('novalinha -> NEWLINE','novalinha',1,'p_novalinha','newParser.py',205),
+  ('html -> novalinha blocks','html',2,'p_html','newParser.py',10),
+  ('html -> blocks','html',1,'p_html','newParser.py',11),
+  ('blocks -> blocks block','blocks',2,'p_blocks','newParser.py',27),
+  ('blocks -> block','blocks',1,'p_blocks','newParser.py',28),
+  ('block -> lines','block',1,'p_block','newParser.py',37),
+  ('lines -> lines line','lines',2,'p_lines','newParser.py',44),
+  ('lines -> line','lines',1,'p_lines','newParser.py',45),
+  ('line -> initialine','line',1,'p_line','newParser.py',52),
+  ('line -> initblock','line',1,'p_line','newParser.py',53),
+  ('line -> normal_line','line',1,'p_line','newParser.py',54),
+  ('line -> cardinaline','line',1,'p_line','newParser.py',55),
+  ('line -> specialine','line',1,'p_line','newParser.py',56),
+  ('line -> dotline','line',1,'p_line','newParser.py',57),
+  ('line -> variableline','line',1,'p_line','newParser.py',58),
+  ('line -> ifline','line',1,'p_line','newParser.py',59),
+  ('initblock -> INDENTATION TAG novalinha','initblock',3,'p_initblock','newParser.py',61),
+  ('initialine -> TAG OPAR ATTRIBUTE CPAR novalinha','initialine',5,'p_initialine','newParser.py',74),
+  ('initialine -> TAG novalinha','initialine',2,'p_initialine','newParser.py',75),
+  ('cardinaline -> INDENTATION CARDINAL ID novalinha','cardinaline',4,'p_cardinaline','newParser.py',93),
+  ('cardinaline -> INDENTATION CARDINAL ID DOT CLASS novalinha','cardinaline',6,'p_cardinaline','newParser.py',94),
+  ('normal_line -> INDENTATION TAG TEXT novalinha','normal_line',4,'p_normal_line','newParser.py',111),
+  ('normal_line -> INDENTATION TAG EQUALS ATTRIBUTE novalinha','normal_line',5,'p_normal_line','newParser.py',112),
+  ('normal_line -> INDENTATION TAG OPAR ATTRIBUTE CPAR novalinha','normal_line',6,'p_normal_line','newParser.py',113),
+  ('specialine -> INDENTATION TAG DOT novalinha','specialine',4,'p_specialine','newParser.py',137),
+  ('specialine -> INDENTATION TAG OPAR ATTRIBUTE CPAR DOT novalinha','specialine',7,'p_specialine','newParser.py',138),
+  ('dotline -> INDENTATION SPECIAL novalinha','dotline',3,'p_dotline','newParser.py',162),
+  ('variableline -> INDENTATION VAR SPACE TEXT SPACE EQUAL SPACE TEXT novalinha','variableline',9,'p_variableline','newParser.py',175),
+  ('ifline -> INDENTATION IF TEXT novalinha','ifline',4,'p_ifline','newParser.py',185),
+  ('novalinha -> NEWLINE','novalinha',1,'p_novalinha','newParser.py',192),
 ]

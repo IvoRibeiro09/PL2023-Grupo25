@@ -2,6 +2,8 @@ import ply.yacc as yac
 from new_lexer import tokens
 from CLASSE import *
 
+
+variaveis=[]
 arr=[]
 
 def p_html(p):
@@ -52,7 +54,9 @@ def p_line(p):
             | normal_line
             | cardinaline
             | specialine
-            | dotline '''
+            | dotline
+            | variableline
+            | ifline'''
 def p_initblock(p):
     '''initblock : INDENTATION TAG novalinha '''
     p[0]= p[2]
@@ -129,43 +133,6 @@ def p_normal_line(p):
         a.setAtributo(p[4])
         arr.append(a)
 
-"""
-def p_dotblock(p):
-    dotblock : INDENTATION TAG DOT novalinha dotcontent
-                | INDENTATION TAG DOT novalinha
-    if len(p) == 5:
-        print("len=5")
-        p[0] = f"<{p[2]}>"+f"{p[3]}"+"</p>"
-        a = Values()
-        a.setTag(p[2])
-        a.setPosicao(len(p[1]))
-        a.setConteudo("")
-        arr.append(a)
-    elif len(p) == 6:
-        print("entrei")
-        p[0] = f"<{p[2]}>"+f"{p[3]}"+"</p>"
-        a = Values()
-        a.setTag(p[2])
-        a.setPosicao(len(p[1]))
-        print("p de 5 no dotblock"+p[5])
-        a.setConteudo(p[5])
-        arr.append(a)
-        print("especial no dotblock")
-def p_dotcontent(p):
-    dotcontent : dotcontent dotline
-                  | dotline
-
-    if len(p)==3:
-        print("DOTCONTENT LEN=3")
-        #print("P[1="+p[1])
-        #print("P[2=" + p[2])
-        p[0]=p[1]+p[2]
-        print("p de 0|"+p[0]+"|")
-    else :
-        p[0]=p[1]
-        print("dotcontent else")
-    return p[0]
-"""
 def p_specialine(p):
     """specialine : INDENTATION TAG DOT novalinha
                   | INDENTATION TAG OPAR ATTRIBUTE CPAR DOT novalinha"""
@@ -176,6 +143,7 @@ def p_specialine(p):
         a.setPosicao(len(p[1]))
         a.setAtributo("")
         a.setConteudo("")
+        a.setComment(True)
         arr.append(a)
     elif len(p)==8:
         p[0] = p[1] + p[2] + p[3]
@@ -184,6 +152,7 @@ def p_specialine(p):
         a.setPosicao(len(p[1]))
         a.setAtributo(p[4])
         a.setConteudo("")
+        a.setComment(True)
         arr.append(a)
     print("specialine|"+ p[0]+"|")
 
@@ -200,6 +169,27 @@ def p_dotline(p):
     print("dotline|"+ p[0]+"|")
     return p[0]
 
+
+#por os outros casos
+def p_variableline(p):
+    """variableline : INDENTATION VAR SPACE TEXT SPACE EQUAL SPACE TEXT novalinha"""
+    variable =dict()
+    if len(p)==10:
+        variable[p[4]] = p[8]
+        variaveis.append(variable)
+    print("varibleline|")
+    print(variable)
+    return p[0]
+
+def p_ifline(p):
+    """ifline : INDENTATION IF TEXT novalinha"""
+    if len(p)==5:
+        print(p[3])
+        for i in variaveis:
+            if (p[3]) in i:
+                print("existe com o valor :" + i[p[3]])
+    print("IFLINE|")
+    return p[0]
 
 def p_novalinha(p):
     '''novalinha : NEWLINE'''
@@ -254,12 +244,14 @@ html(lang="en")
 
 text3="""
 html(lang="en")
-    head
-         script(type='text/javascript').
-            if (foo) bar(1 + 5)
+    - var aaa = True
+     if youAreUsingPug
+        p You are amazing
+     else
+        p Get on it!
 """
 parser = yac.yacc()
-print(parser.parse(text))
+print(parser.parse(text3))
 
 print("Arr:---------")
 
@@ -290,8 +282,10 @@ while p < len(arr):
     print(espacos(atual.getPosicao()) + "<" + atual.getTag() + " " + atual.getAtributo() + ">")
     pos.append(atual.getTag())
     pospos.append(atual.getPosicao())
-    if(atual.getConteudo()):
+    if(atual.getConteudo()) and atual.getComment()==False:
         print(espacos(atual.getPosicao() + 4) + atual.getConteudo())
+    elif (atual.getConteudo()) and atual.getComment() == True:
+        print(atual.getConteudo())
     if p+1 < len(arr) and atual.getPosicao() >= arr[p+1].getPosicao():
         print(espacos(pospos.pop()) + "</" + pos.pop() + ">")
         if atual.getPosicao() > arr[p + 1].getPosicao():
