@@ -1,7 +1,7 @@
-from new_lexer import *
+from Defs_por_estado.new_lexer import *
 def main():
     lexer = lex.lex()
-    lexer.input(pug_code)
+    lexer.input(text3)
 
     for tok in lexer:
         print(tok)
