@@ -29,7 +29,7 @@ def t_indentation_TAG(t):
 
 
 def t_indentation_TEXT(t):
-    r'[\S]+(\ [\S]+)*'
+    r'[\w]+(\ [\w]+)*'
     t.lexer.begin('text')
     return t
 

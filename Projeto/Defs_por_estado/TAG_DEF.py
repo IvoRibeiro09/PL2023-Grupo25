@@ -14,7 +14,7 @@ def t_tag_SPACE(t):
 
 
 def t_tag_TEXT(t):
-    r'[\w\!]+(\ [\w\!]+)*'
+    r'[\w\!\-]+(\ [\w\!\-]+)*'
     t.lexer.begin('text')
     return t
 

@@ -4,6 +4,7 @@ class Values:
         self.tag = ""
         self.posicao = 0
         self.atributo = ""
+        self.variavel = ""
         self.conteudo = ""
         self.comment = False
         self.If = 0
@@ -12,6 +13,8 @@ class Values:
         self.tag = tag
     def setIF(self, value):
         self.If = value
+    def setVariavel(self, value):
+        self.variavel = value
     def setIfContent(self, value):
         self.if_content = value
     def setComment(self, comment):
@@ -26,6 +29,8 @@ class Values:
         return self.tag
     def getIf(self):
         return self.If
+    def getVariavel(self):
+        return self.variavel
     def getIfContent(self):
         return self.if_content
     def getPosicao(self):

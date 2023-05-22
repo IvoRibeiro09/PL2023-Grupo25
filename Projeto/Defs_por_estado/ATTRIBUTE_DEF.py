@@ -3,7 +3,7 @@ def t_attribute_SPACE(t):
 
 
 def t_attribute_ATTRIBUTE(t):
-    r'[\w\"\=]+(\ [\w\"\=]+)*'
+    r'[\w\"\=\'\/]+(\ [\w\"\=\'\/]+)*'
     return t
 
 

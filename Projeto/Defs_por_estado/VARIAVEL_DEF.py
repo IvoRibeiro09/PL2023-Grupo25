@@ -3,7 +3,7 @@ def t_variavel_SPACE(t):
 
 
 def t_variavel_TEXT(t):
-    r'[\w\-\,\.]+'
+    r'[\w\-\,\.\"]+'
     return t
 
 

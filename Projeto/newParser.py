@@ -121,7 +121,7 @@ def p_normal_line(p):
         a = Values()
         a.setTag(p[2])
         a.setPosicao(len(p[1]))
-        a.setConteudo(p[4])
+        a.setVariavel(p[4])
         arr.append(a)
     elif len(p) == 7:
         p[0] = f"<{p[2]}>" + f"{p[3]}"
@@ -217,6 +217,7 @@ def p_error(p):
 text = """
 html(lang="en")
     head
+        - var pageTitle = ola
         title= pageTitle
         script(type='text/javascript').
             if (foo) bar(1 + 5)
@@ -230,42 +231,11 @@ html(lang="en")
             p.
                 Pug is a terse and simple templating language with a
                 strong focus on performance and powerful features
-            p
-                
-"""
-text2 = """
-html(lang="en")
-     body
-         script(type='text/javascript').
-            if (foo) bar(1 + 5)
-         title= pageTitle
-         p asda
-         p a
-         p a
-         h1 Pug - node template engine
-         #container.col
-     head
-           p asasa
-           p aaaa
-           p.
-                aaaaa
-                bbbbb
-                cccc
-           p.
-                a
-                """
-
-text3 = """
-html(lang="en")
-    - var youAreUsingPug = True
-    if youAreUsingPug 
-        p You are amazing
-    else
-        p Get on it!
+            p     
 """
 
 parser = yac.yacc()
-print(parser.parse(text3))
+print(parser.parse(text))
 
 print("Arr:---------")
 
@@ -303,17 +273,21 @@ def draw(atual, negpos):
     print(espacos(atual.getPosicao()-negpos) + "<" + atual.getTag() + getAtribute(atual.getAtributo()) + ">")
     pos.append(atual.getTag())
     pospos.append(atual.getPosicao())
-    if (atual.getConteudo()) and atual.getComment() == False:
+    if atual.getVariavel() != "":
+        for var in variaveis:
+            if var['nome'] == atual.getVariavel():
+                print(espacos(atual.getPosicao() + 4-negpos) + var['valor'])
+    if atual.getConteudo() != "" and atual.getComment() == False:
         print(espacos(atual.getPosicao() + 4-negpos) + atual.getConteudo())
-    elif (atual.getConteudo()) and atual.getComment():
-        print(atual.getConteudo())
+    elif atual.getConteudo() != "" and atual.getComment():
+        print(atual.getConteudo(), end='')
     if p + 1 < len(arr) and atual.getPosicao() >= arr[p + 1].getPosicao():
         print(espacos(pospos.pop()-negpos) + "</" + pos.pop() + ">")
-        if atual.getPosicao() > arr[p + 1].getPosicao() and len(pos) > 0:
+        if (atual.getPosicao()-negpos) > arr[p + 1].getPosicao() and len(pos) > 0:
             print(espacos(pospos.pop()-negpos) + "</" + pos.pop() + ">")
 
 def name_value(str):
-    n_arr = re.split(r'\ *=\ *', str)
+    n_arr = re.split(r'\ *=+\ *', str)
     if len(n_arr) < 2:
         n_arr.append("True")
     return n_arr
@@ -335,9 +309,9 @@ while p < len(arr):
             p = p + 1
             atual = arr[p]
             if pprint == 1:
-                draw(atual,4)
+                draw(atual, 4)
     else:
-        draw(atual,0)
+        draw(atual, 0)
     p = p + 1
 while pos:
     print(espacos(pospos.pop()) + "</" + pos.pop() + ">")

@@ -3,7 +3,7 @@ def t_text_SPACE(t):
 
 
 def t_text_TEXT(t):
-    r'[\w]+(\ [\w]+)*'
+    r'[\w\-]+(\ [\w\-]+)*'
     return t
 
 

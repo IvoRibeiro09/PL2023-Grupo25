@@ -49,47 +49,23 @@ def t_ANY_error(t):
 pug_code = """
 html(lang="en")
     head
+        - var pageTitle = "ola"
         title= pageTitle
         script(type='text/javascript').
             if (foo) bar(1 + 5)
     body
         h1 Pug - node template engine
         #container.col
-            - var youAreUsingPug = True
-            if youAreUsingPug 
+            if youAreUsingPug
                 p You are amazing
             else
                 p Get on it!
             p.
                 Pug is a terse and simple templating language with a
                 strong focus on performance and powerful features
-              a
-            a
-            a.
-                aaaa
-            b
+            p
 """
 
-'''
-def main():
-    lexer = lex.lex()
-    lexer.input(pug_code)
-
-    for tok in lexer:
-        print(tok)
-
-
-if __name__ == '__main__':
-    main()
-'''
-text3 = """
-html(lang="en")
-    - var aaa = True
-     if youAreUsingPug
-        p You are amazing
-     else
-        p Get on it!
-"""
 
 lexer = lex.lex()
 lexer.paiponto = 0
