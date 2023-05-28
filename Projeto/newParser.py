@@ -19,17 +19,17 @@ def ifvar(dict):
     if 'tagVAR' in dict and dict['tagVAR'] and 'tagVARVALUE' in dict and dict['tagVARVALUE']:
         string = ""
         for n, v in zip(dict['tagVAR'], dict['tagVARVALUE']):
-            string += " " + n + "=" + '"' + v + '"'
+            string += " " + n + "=" + '"' + str(v) + '"'
         return string
     else:
         return ""
 
-def checkvar(dict, arr):
+def checkvar(dicionario, arr):
     for i in arr:
-        print(i)
-        if dict['varNAME'] == i['Nome']:
+        if str(dicionario.get('varNAME')) == str(i.get('Nome')) and str(dicionario.get('varVALUE')) == str(i.get('Value')):
             return True
     return False
+
 
 def check(bool, anterior, pos):
     if bool:
@@ -39,6 +39,13 @@ def check(bool, anterior, pos):
             return True
     else:
         return bool
+
+def negIndentation(negpos, negposposition, elemento):
+    if negpos != 0:
+        if elemento['pos'] <= negposposition:
+            return 0
+    return negpos
+
 def arr_html(arr):
     finalString = ""
     var_arr = []
@@ -47,29 +54,40 @@ def arr_html(arr):
     pos_atual = -1
     dontdraw = False
     ifprint = True
+    negpos = 0
+    negposposition = 0
     for element in arr:
-        dontdraw = check(dontdraw, pos_atual, element['pos'])
-        print(dontdraw)
+        dontdraw = check(dontdraw, negposposition, element['pos'])
+        negpos = negIndentation(negpos, negposposition, element)
+        print(str(negpos)+ "  "+str(element))
         pos_atual = element['pos']
         if not dontdraw:
             if 'Var' in element and element['Var']:
                 var_arr.append({'Nome': element['Nome'], 'Value': element['Value']})
             elif 'if' in element and element['if']:
+                negpos = -4
+                negposposition = pos_atual
                 if not checkvar(element, var_arr):
                     dontdraw = True
                     ifprint = False
             elif 'else' in element and element['else']:
+                negpos = -4
+                negposposition = pos_atual
                 if ifprint:
                     dontdraw = True
             elif 'tag' in element and element['tag']:
-                finalString += closeTag(pos, pospos, pos_atual)
+                finalString += closeTag(pos, pospos, pos_atual+negpos)
                 pos.append(element['tag'])
-                pospos.append(element['pos'])
-                finalString += (espacos(element['pos']) + "<" + element['tag'] + ifvar(element) + ">\n")
+                pospos.append(element['pos']+negpos)
+                finalString += (espacos(element['pos']+negpos) + "<" + element['tag'] + ifvar(element) + ">\n")
                 if 'conteudo' in element and element['conteudo']:
-                    finalString += espacos(element['pos'] + 4) + element['conteudo'] + "\n"
+                    finalString += espacos(element['pos'] + 4+negpos) + element['conteudo'] + "\n"
+                elif 'var' in element and element['var']:
+                    for i in var_arr:
+                        if i['Nome'] == element['var']:
+                            finalString += espacos(element['pos'] + 4+negpos) + i['Value'] + "\n"
             elif 'conteudo' in element and element['conteudo']:
-                finalString += espacos(element['pos']) + element['conteudo'] + "\n"
+               finalString += espacos(element['pos']+negpos) + element['conteudo'] + "\n"
     while pos:
         finalString += closeTag(pos, pospos, -1)
     return finalString
@@ -126,8 +144,12 @@ def p_elseline(p):
 
 # IF VARNAME EQUAL VARVALUE
 def p_ifline(p):
-    '''ifline : IF VARNAME'''
-    p[0] = {'if': True, 'varNAME': p[2]}
+    '''ifline : IF VARNAME EQUAL VARVALUE
+                | IF VARNAME'''
+    if len(p) == 5:
+        p[0] = {'if': True, 'varNAME': p[2], 'varVALUE': p[4]}
+    else:
+        p[0] = {'if': True, 'varNAME': p[2], 'varVALUE': True}
 
 
 def p_tagdotline(p):
@@ -186,16 +208,19 @@ def p_error(p):
 text = '''
 html(lang="en")
     head
-        - var pageTitle = ola
-        - var youAreUsingPug = False
+        - var pageTitle = ola Ivo tudo bem?
+        - var youAreUsingPug = True
         title= pageTitle
         script(type='text/javascript').
             if (foo) bar(1 + 5)
     body
+        p You are amazing
+        p Ivo is amazingn
         h1 Pug - node template engine
         #container.col
-            if youAreUsingPug
+            if youAreUsingPug == True
                 p You are amazing
+                p Ivo is amazingn
             else
                 p Get on it!
             p.

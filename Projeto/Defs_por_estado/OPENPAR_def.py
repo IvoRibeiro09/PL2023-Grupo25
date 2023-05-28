@@ -1,5 +1,4 @@
-def t_openPar_SPACE(t):
-    r'\ '
+t_openPar_ignore = r' '
 
 
 def t_openPar_VARNAME(t):

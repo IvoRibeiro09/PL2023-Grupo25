@@ -21,14 +21,12 @@ states = (
 
 tokens = [
     'NEWLINE',
-    'SPACE',
     'OPAR',
     'CPAR',
     'VAR',
     'VARNAME',
     'VARVALUE',
     'ID',
-    'CLASS',
     'INDENTATION',
     'IF',
     'ELSE',
@@ -76,10 +74,10 @@ html(lang="en")
 lexer = lex.lex()
 lexer.ident_linhaAntes = 0
 lexer.ident_linhaAtual = 0
-"""
+
 lexer.input(pug_code)
 
 for tok in lexer:
     print(tok)
-"""
+
 

@@ -1,8 +1,7 @@
 def t_text_VARVALUE(t):
-    r'[\w\"\-\_\'\/]+'
+    r'((?!\n|\.\n|\)).)+'
     t.lexer.begin('openPar')
     return t
 
 
-def t_text_SPACE(t):
-    r'\ '
+t_text_ignore = r' '

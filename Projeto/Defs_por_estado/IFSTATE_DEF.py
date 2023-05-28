@@ -3,8 +3,7 @@ def t_ifstate_VARNAME(t):
     return t
 
 
-def t_ifstate_SPACE(t):
-    r'\ '
+t_ifstate_ignore = r' '
 
 
 def t_ifstate_EQUAL(t):

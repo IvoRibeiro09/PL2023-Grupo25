@@ -1,5 +1,4 @@
-def t_variavel_SPACE(t):
-    r'\ '
+t_variavel_ignore = r' '
 
 
 def t_variavel_VARNAME(t):
