@@ -1,0 +1,29 @@
+html(lang="en")
+    head
+        - var pageTitle = "ola"
+        title= pageTitle
+        script(type='text/javascript').
+            if (foo) bar(1 + 5)
+    body
+        h1 "P((||||\\\//''''$$$$<<<>>>>--;;,,,....,*++p+ºḉṕokpoijoih))ug??%#" - node template engine
+        //- one line read coment
+        // one line html coment
+        #container.col
+            //-
+                Comments for @@@@@@your template writers.
+                Use as much text as you want.
+            //
+                Comments for your HTML readers.
+                Use as much text as you want.
+            if youAreUsingPug
+                p You are amazing
+            else
+                p Get on it!
+            p.
+                Pug is a terse and sim((||||\\\//''''$$$$<<<>>>>--;;,,,....,*++p+ºḉṕokpoijoih)ple templating language with a
+                strong focus on performance and powerful features
+                ola((||||\\\//''''$$$$<<<>>>>--;;,,,....,*++p+ºḉṕokpoijoih)
+                pppp
+            p
+            if youAreUsingPug == False
+                p ola

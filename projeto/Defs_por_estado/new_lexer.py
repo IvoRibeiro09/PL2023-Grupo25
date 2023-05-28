@@ -1,14 +1,14 @@
 from ply import lex
 
-from Defs_por_estado.ID_DEF import *
-from Defs_por_estado.INITIAL_DEF import *
-from Defs_por_estado.PONTO_DEF import *
-from Defs_por_estado.TAG_DEF import *
-from Defs_por_estado.TEXT_DEF import *
-from Defs_por_estado.VARIAVEL_DEF import *
-from Defs_por_estado.OPENPAR_def import *
-from Defs_por_estado.IFSTATE_DEF import *
-from Defs_por_estado.COMENTSTATE_DEF import *
+from projeto.Defs_por_estado.ID_DEF import *
+from projeto.Defs_por_estado.INITIAL_DEF import *
+from projeto.Defs_por_estado.PONTO_DEF import *
+from projeto.Defs_por_estado.TAG_DEF import *
+from projeto.Defs_por_estado.TEXT_DEF import *
+from projeto.Defs_por_estado.VARIAVEL_DEF import *
+from projeto.Defs_por_estado.OPENPAR_def import *
+from projeto.Defs_por_estado.IFSTATE_DEF import *
+from projeto.Defs_por_estado.COMENTSTATE_DEF import *
 
 states = (
     ('openPar', 'exclusive'),

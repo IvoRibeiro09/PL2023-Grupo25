@@ -1,6 +1,60 @@
 import ply.yacc as yac
 from Defs_por_estado.new_lexer import tokens
 
+"""
+
+GRAMATICA
+
+
+pugHTML : pugHTML linhas
+        | 
+
+linhas : linhas linha
+       | linha
+
+linha : INDENTATION line NEWLINE
+      | line NEWLINE
+      | NEWLINE
+
+line : tagline
+     | tagdotline
+     | trashline
+     | cardinalline
+     | varline
+     | ifline
+     | elseline
+     | comentline
+     | readonlycomentline
+     
+     
+comentline : WRCOMT COMMENT
+           | WRCOMT
+
+readonlycomentline : RDCOMT COMMENT
+                   | RDCOMT
+                   
+elseline : ELSE 
+
+ifline : IF VARNAME EQUAL VARVALUE
+       | IF VARNAME
+
+tagdotline : TAG OPAR VARNAME EQUAL VARVALUE CPAR DOT
+           | TAG EQUAL VARVALUE DOT
+           | TAG COMMENT DOT
+           | TAG DOT
+           
+tagline : TAG OPAR VARNAME EQUAL VARVALUE CPAR
+        | TAG EQUAL VARVALUE
+        | TAG COMMENT
+        | TAG
+        
+trashline : COMMENT
+
+cardinalline : ID VARVALUE DOT VARVALUE
+             | ID VARVALUE
+
+varline : VAR VARNAME EQUAL VARVALUE
+"""
 
 def espacos(n):
     return " " * n
@@ -242,10 +296,6 @@ def p_error(p):
     print(p)
     print("Erro sintático no input!")
 
-f = open("pug_html.txt", "r")
+
 parser = yac.yacc()
-p = parser.parse(f.read(), debug=0)
-f.close()
-out = open("output1.txt", "w")
-out.write(p)
-out.close()
+
