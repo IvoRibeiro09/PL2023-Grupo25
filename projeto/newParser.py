@@ -1,7 +1,5 @@
-import re
 import ply.yacc as yac
 from Defs_por_estado.new_lexer import tokens
-
 
 
 def espacos(n):
@@ -11,7 +9,11 @@ def espacos(n):
 def closeTag(arr1, arr2, pos):
     string = ""
     while len(arr2) > 0 and pos <= arr2[-1]:
-        string += espacos(arr2.pop()) + "</" + arr1.pop() + ">\n"
+        if arr1[-1] == 'ENDCOMT':
+            arr1.pop()
+            string += espacos(arr2.pop()) + "-->\n"
+        else:
+            string += espacos(arr2.pop()) + "</" + arr1.pop() + ">\n"
     return string
 
 
@@ -23,6 +25,7 @@ def ifvar(dict):
         return string
     else:
         return ""
+
 
 def checkvar(dicionario, arr):
     for i in arr:
@@ -40,11 +43,13 @@ def check(bool, anterior, pos):
     else:
         return bool
 
+
 def negIndentation(negpos, negposposition, elemento):
     if negpos != 0:
         if elemento['pos'] <= negposposition:
             return 0
     return negpos
+
 
 def arr_html(arr):
     finalString = ""
@@ -59,11 +64,20 @@ def arr_html(arr):
     for element in arr:
         dontdraw = check(dontdraw, negposposition, element['pos'])
         negpos = negIndentation(negpos, negposposition, element)
-        print(str(negpos)+ "  "+str(element))
         pos_atual = element['pos']
         if not dontdraw:
             if 'Var' in element and element['Var']:
                 var_arr.append({'Nome': element['Nome'], 'Value': element['Value']})
+            elif 'coment' in element:
+                if not element['coment']:
+                    negposposition = pos_atual
+                    dontdraw = True
+                else:
+                    finalString += (espacos(element['pos']+negpos)) + "<!--\n"
+                    if 'conteudo' in element:
+                        finalString += (espacos(element['pos'] + negpos + 4)) + element['conteudo']+"\n"
+                    pos.append('ENDCOMT')
+                    pospos.append(element['pos']+negpos)
             elif 'if' in element and element['if']:
                 negpos = -4
                 negposposition = pos_atual
@@ -133,9 +147,25 @@ def p_line(p):
             | cardinalline
             | varline
             | ifline
-            | elseline'''
+            | elseline
+            | comentline
+            | readonlycomentline'''
     p[0] = p[1]
 
+
+def p_comentline(p):
+    '''comentline : WRCOMT COMMENT
+                   | WRCOMT'''
+    if len(p) == 3:
+        p[0] = {'coment': True, 'conteudo': p[2]}
+    else:
+        p[0] = {'coment': True}
+
+
+def p_readonlycomentline(p):
+    '''readonlycomentline : RDCOMT COMMENT
+                           | RDCOMT'''
+    p[0] = {'coment': False}
 
 def p_elseline(p):
     '''elseline : ELSE '''
@@ -205,30 +235,7 @@ def p_error(p):
     print(p)
     print("Erro sintático no input!")
 
-text = '''
-html(lang="en")
-    head
-        - var pageTitle = ola Ivo tudo bem?
-        - var youAreUsingPug = True
-        title= pageTitle
-        script(type='text/javascript').
-            if (foo) bar(1 + 5)
-    body
-        p You are amazing
-        p Ivo is amazingn
-        h1 Pug - node template engine
-        #container.col
-            if youAreUsingPug == True
-                p You are amazing
-                p Ivo is amazingn
-            else
-                p Get on it!
-            p.
-                Pug is a terse and simple templating language with a
-                strong focus on performance and powerful features
-            p     
-'''
+f = open("pug_html.txt", "r")
 parser = yac.yacc()
-print(parser.parse(text, debug=0))
-
+print(parser.parse(f.read(), debug=0))
 print("Arr:---------")
