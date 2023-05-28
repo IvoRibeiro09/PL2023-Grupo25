@@ -17,11 +17,18 @@ def closeTag(arr1, arr2, pos):
     return string
 
 
+def remover_aspas(string):
+    if string.startswith('"') and string.endswith('"'):
+        return string[1:-1]
+    else:
+        return string
+
+
 def ifvar(dict):
     if 'tagVAR' in dict and dict['tagVAR'] and 'tagVARVALUE' in dict and dict['tagVARVALUE']:
         string = ""
         for n, v in zip(dict['tagVAR'], dict['tagVARVALUE']):
-            string += " " + n + "=" + '"' + v + '"'
+            string += " " + n + "=" + '"' + remover_aspas(v) + '"'
         return string
     else:
         return ""
@@ -203,13 +210,13 @@ def p_tagline(p):
                 | TAG COMMENT
                 | TAG'''
     if len(p) == 7:
-        p[0] = {'pos': 0, 'tag': p[1], 'tagVAR': [p[3]], 'tagVARVALUE': [p[5]]}
+        p[0] = {'tag': p[1], 'tagVAR': [p[3]], 'tagVARVALUE': [p[5]]}
     elif len(p) == 4:
-        p[0] = {'pos': 0, 'tag': p[1], 'var': p[3]}
+        p[0] = {'tag': p[1], 'var': p[3]}
     elif len(p) == 3:
-        p[0] = {'pos': 0, 'tag': p[1], 'conteudo': p[2]}
+        p[0] = {'tag': p[1], 'conteudo': p[2]}
     elif len(p) == 2:
-        p[0] = {'pos': 0, 'tag': p[1]}
+        p[0] = {'tag': p[1]}
 
 
 def p_trashline(p):
