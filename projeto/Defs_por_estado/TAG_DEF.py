@@ -20,7 +20,7 @@ def t_tag_OPAR(t):
 
 
 def t_tag_COMMENT(t):
-    r'[\w][\w\ \-\!]*'
+    r'((?!\n|\.\n).)+'
     return t
 
 

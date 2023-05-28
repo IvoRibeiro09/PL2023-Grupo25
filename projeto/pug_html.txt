@@ -5,12 +5,12 @@ html(lang="en")
         script(type='text/javascript').
             if (foo) bar(1 + 5)
     body
-        h1 Pug - node template engine
+        h1 "P((||||\\\//''''$$$$<<<>>>>--;;,,,....,*++p+ºḉṕokpoijoih))ug??%#" - node template engine
         //- one line read coment
         // one line html coment
         #container.col
             //-
-                Comments for your template writers.
+                Comments for @@@@@@your template writers.
                 Use as much text as you want.
             //
                 Comments for your HTML readers.
@@ -20,9 +20,9 @@ html(lang="en")
             else
                 p Get on it!
             p.
-                Pug is a terse and simple templating language with a
+                Pug is a terse and sim((||||\\\//''''$$$$<<<>>>>--;;,,,....,*++p+ºḉṕokpoijoih)ple templating language with a
                 strong focus on performance and powerful features
-                ola
+                ola((||||\\\//''''$$$$<<<>>>>--;;,,,....,*++p+ºḉṕokpoijoih)
                 pppp
             p
             if youAreUsingPug == False

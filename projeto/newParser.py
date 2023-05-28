@@ -244,5 +244,8 @@ def p_error(p):
 
 f = open("pug_html.txt", "r")
 parser = yac.yacc()
-print(parser.parse(f.read(), debug=0))
-print("Arr:---------")
+p = parser.parse(f.read(), debug=0)
+f.close()
+out = open("output1.txt", "w")
+out.write(p)
+out.close()
